@@ -1,0 +1,324 @@
+/* ============================================================
+   COMPONENTS.CSS
+   Các thành phần UI tái sử dụng trên nhiều trang: button, table,
+   badge, modal, form input, card, pagination, avatar...
+   Load SAU base.css và layout.css.
+
+   Lưu ý: nếu project dùng Bootstrap, phần lớn các class dưới đây
+   (btn, table, badge, form-control...) đã có sẵn trong Bootstrap.
+   File này chỉ nên giữ lại phần TÙY CHỈNH THÊM ngoài Bootstrap
+   (ví dụ: modal-overlay riêng, avatar, progress bar sĩ số...).
+   Nếu KHÔNG dùng Bootstrap, giữ nguyên toàn bộ file này để đủ dùng.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. BUTTON
+   ------------------------------------------------------------ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    transition: background-color var(--transition-fast), opacity var(--transition-fast);
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: var(--text-on-primary);
+}
+.btn-primary:hover { background-color: var(--color-primary-hover); }
+
+.btn-secondary {
+    background-color: var(--bg-surface);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+.btn-secondary:hover { background-color: var(--bg-body); }
+
+.btn-danger {
+    background-color: var(--color-danger);
+    color: var(--text-on-primary);
+}
+
+.btn-success {
+    background-color: var(--color-success);
+    color: var(--text-on-primary);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Nút chỉ có icon (VD: sửa/xóa trong bảng) */
+.btn-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-md);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+}
+.btn-icon:hover {
+    background-color: var(--bg-body);
+    color: var(--text-primary);
+}
+.btn-icon.danger:hover {
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger);
+}
+
+/* ------------------------------------------------------------
+   2. FORM (input, select, textarea, label)
+   ------------------------------------------------------------ */
+.form-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.form-label {
+    display: block;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: var(--spacing-xs);
+}
+
+.form-control {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+    transition: border-color var(--transition-fast);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--border-color-focus);
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.form-control::placeholder {
+    color: var(--text-muted);
+}
+
+/* Dòng thông báo lỗi validate ngay dưới field */
+.form-error {
+    font-size: var(--font-size-xs);
+    color: var(--color-danger);
+    margin-top: var(--spacing-xs);
+}
+
+/* Layout 2 cột cho form dài (VD: form thêm sinh viên) */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+}
+
+/* ------------------------------------------------------------
+   3. TABLE (bảng danh sách — dùng ở hầu hết mọi module)
+   ------------------------------------------------------------ */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table thead th {
+    text-align: left;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.table tbody td {
+    padding: var(--spacing-md);
+    font-size: var(--font-size-sm);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.table tbody tr:hover {
+    background-color: var(--bg-body);
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Trạng thái rỗng khi bảng không có dữ liệu */
+.table-empty {
+    text-align: center;
+    padding: var(--spacing-xl);
+    color: var(--text-muted);
+}
+
+/* ------------------------------------------------------------
+   4. BADGE (nhãn trạng thái nhỏ — role, status...)
+   ------------------------------------------------------------ */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px var(--spacing-sm);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+}
+
+.badge-success { background-color: var(--color-success-bg); color: var(--color-success); }
+.badge-warning { background-color: var(--color-warning-bg); color: var(--color-warning); }
+.badge-danger  { background-color: var(--color-danger-bg);  color: var(--color-danger); }
+.badge-info    { background-color: var(--color-info-bg);    color: var(--color-info); }
+.badge-neutral { background-color: var(--bg-body); color: var(--text-secondary); }
+
+/* ------------------------------------------------------------
+   5. MODAL (dùng cho toàn bộ form Thêm/Sửa dạng overlay)
+   Cấu trúc HTML:
+   <div class="modal-overlay">
+       <div class="modal">
+           <div class="modal-header">...</div>
+           <div class="modal-body">...</div>
+           <div class="modal-footer">...</div>
+       </div>
+   </div>
+   ------------------------------------------------------------ */
+.modal-overlay {
+    position: fixed;
+    inset: 0;                    /* tương đương top/right/bottom/left: 0 */
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    width: 100%;
+    max-width: 420px;            /* modal nhỏ, VD: thêm khoa. Modal form dài dùng .modal-lg */
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-lg { max-width: 720px; }  /* dùng cho form nhiều field, VD: thêm sinh viên */
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-body {
+    padding: var(--spacing-lg);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-top: 1px solid var(--border-color);
+}
+
+/* ------------------------------------------------------------
+   6. AVATAR
+   ------------------------------------------------------------ */
+.avatar {
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    background-color: var(--color-primary-light);
+}
+
+.avatar-sm { width: 32px; height: 32px; }
+.avatar-md { width: 48px; height: 48px; }
+.avatar-lg { width: 80px; height: 80px; }
+
+/* ------------------------------------------------------------
+   7. PAGINATION
+   ------------------------------------------------------------ */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: var(--spacing-lg);
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+.pagination-controls {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.pagination-controls button {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+}
+
+.pagination-controls button.active {
+    background-color: var(--color-primary);
+    color: var(--text-on-primary);
+    border-color: var(--color-primary);
+}
+
+/* ------------------------------------------------------------
+   8. STAT CARD (dùng ở dashboard — số liệu tổng quan)
+   ------------------------------------------------------------ */
+.stat-card {
+    background-color: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.stat-card-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.stat-card-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+/* ------------------------------------------------------------
+   9. PROGRESS BAR (dùng cho sĩ số lớp học phần, tín chỉ đã đăng ký)
+   ------------------------------------------------------------ */
+.progress {
+    width: 100%;
+    height: 8px;
+    background-color: var(--border-color);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--color-primary);
+    border-radius: var(--radius-full);
+    transition: width var(--transition-normal);
+}
+
+.progress-bar.warning { background-color: var(--color-warning); }
+.progress-bar.danger  { background-color: var(--color-danger); }

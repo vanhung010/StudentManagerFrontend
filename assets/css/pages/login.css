@@ -1,0 +1,187 @@
+/* ============================================================
+   LOGIN.CSS
+   Style riêng cho trang đăng nhập — không dùng lại ở trang khác
+   nên KHÔNG đặt trong components.css/layout.css chung.
+   Load sau base.css (đã có sẵn biến màu, spacing, font...)
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. NỀN TOÀN TRANG
+   ------------------------------------------------------------ */
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #EEF1F8;
+    background-image: radial-gradient(#D8DEEC 1px, transparent 1px);
+    background-size: 22px 22px;
+    padding: var(--spacing-lg);
+}
+
+/* ------------------------------------------------------------
+   2. CARD ĐĂNG NHẬP
+   ------------------------------------------------------------ */
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    background-color: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    border-top: 4px solid var(--color-primary);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-xl) var(--spacing-xl);
+    text-align: center;
+}
+
+/* ------------------------------------------------------------
+   3. LOGO
+   ------------------------------------------------------------ */
+.login-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+}
+
+.login-logo-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-logo-text {
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    color: var(--color-primary);
+    letter-spacing: 0.05em;
+}
+
+/* ------------------------------------------------------------
+   4. TIÊU ĐỀ
+   ------------------------------------------------------------ */
+.login-title {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-xs);
+}
+
+.login-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* ------------------------------------------------------------
+   5. FORM — nhãn field, input có icon
+   ------------------------------------------------------------ */
+.login-card .form-group {
+    text-align: left;
+}
+
+.login-card .form-label {
+    color: var(--color-primary);
+}
+
+.label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-xs);
+}
+
+.label-row .form-label {
+    margin-bottom: 0;
+}
+
+.forgot-link {
+    font-size: var(--font-size-xs);
+    color: var(--color-primary);
+    font-weight: 500;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+/* Input có icon bên trong (user icon, lock icon) */
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: var(--spacing-md);
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+.input-icon-padding {
+    padding-left: 40px;
+}
+
+.input-icon-padding-right {
+    padding-right: 40px;
+}
+
+/* Nút icon con mắt để hiện/ẩn mật khẩu */
+.toggle-password {
+    position: absolute;
+    right: var(--spacing-md);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-password:hover {
+    color: var(--text-secondary);
+}
+
+/* ------------------------------------------------------------
+   6. GHI NHỚ ĐĂNG NHẬP
+   ------------------------------------------------------------ */
+.remember-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    margin: var(--spacing-md) 0 var(--spacing-lg);
+    cursor: pointer;
+}
+
+.remember-row input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--color-primary);
+    cursor: pointer;
+}
+
+/* ------------------------------------------------------------
+   7. NÚT ĐĂNG NHẬP
+   ------------------------------------------------------------ */
+.btn-login {
+    width: 100%;
+    padding: var(--spacing-md);
+    font-size: var(--font-size-md);
+    font-weight: 600;
+}
+
+/* ------------------------------------------------------------
+   8. FOOTER
+   ------------------------------------------------------------ */
+.login-footer {
+    margin-top: var(--spacing-lg);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+}

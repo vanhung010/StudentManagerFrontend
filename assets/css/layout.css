@@ -1,0 +1,225 @@
+/* ============================================================
+   LAYOUT.CSS
+   Bố cục khung sườn dùng chung cho mọi trang SAU KHI ĐĂNG NHẬP
+   (admin/*, teacher/*, student/*) — KHÔNG dùng cho login.html
+   Load SAU base.css, TRƯỚC components.css
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. KHUNG TỔNG THỂ
+   Cấu trúc HTML tương ứng:
+   <div class="app-layout">
+       <aside class="sidebar">...</aside>
+       <div class="main-wrapper">
+           <header class="header">...</header>
+           <main class="content">...</main>
+       </div>
+   </div>
+   ------------------------------------------------------------ */
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ------------------------------------------------------------
+   2. SIDEBAR (menu điều hướng bên trái)
+   ------------------------------------------------------------ */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--bg-sidebar);
+    color: var(--text-on-primary);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;              /* không bị co lại khi content quá dài */
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+/* Logo/tên hệ thống ở đầu sidebar */
+.sidebar-logo {
+    padding: var(--spacing-lg) var(--spacing-md);
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    border-bottom: 1px solid var(--bg-sidebar-hover);
+}
+
+.sidebar-logo small {
+    display: block;
+    font-size: var(--font-size-xs);
+    color: #94A3B8;              /* xám nhạt riêng cho sidebar, không dùng --text-muted
+                                     vì nền tối, cần độ tương phản khác */
+    font-weight: 400;
+}
+
+/* Danh sách menu */
+.sidebar-menu {
+    list-style: none;
+    flex: 1;                     /* chiếm hết khoảng trống, đẩy user-box xuống đáy */
+    padding: var(--spacing-sm) 0;
+}
+
+.sidebar-menu-item a {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    color: #CBD5E1;
+    font-size: var(--font-size-sm);
+    transition: background-color var(--transition-fast);
+}
+
+.sidebar-menu-item a:hover {
+    background-color: var(--bg-sidebar-hover);
+    color: var(--text-on-primary);
+}
+
+/* Trạng thái menu đang được chọn (trang hiện tại) */
+.sidebar-menu-item a.active {
+    background-color: var(--color-primary);
+    color: var(--text-on-primary);
+    font-weight: 500;
+}
+
+/* Khu vực thông tin user + đăng xuất, luôn ở đáy sidebar */
+.sidebar-user {
+    padding: var(--spacing-md);
+    border-top: 1px solid var(--bg-sidebar-hover);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.sidebar-user-name {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+}
+
+.sidebar-user-role {
+    font-size: var(--font-size-xs);
+    color: #94A3B8;
+}
+
+/* ------------------------------------------------------------
+   3. MAIN WRAPPER (header + content, chiếm phần còn lại)
+   ------------------------------------------------------------ */
+.main-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;                /* tránh tràn ngang khi content có bảng rộng */
+}
+
+/* ------------------------------------------------------------
+   4. HEADER (thanh trên cùng, bên phải sidebar)
+   ------------------------------------------------------------ */
+.header {
+    height: var(--header-height);
+    background-color: var(--bg-surface);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--spacing-lg);
+    position: sticky;
+    top: 0;
+    z-index: 10;                 /* nổi trên content khi cuộn trang */
+}
+
+.header-title {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+/* Icon chuông thông báo + badge số lượng chưa đọc */
+.header-notification {
+    position: relative;
+}
+
+.header-notification-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background-color: var(--color-danger);
+    color: var(--text-on-primary);
+    font-size: 10px;
+    min-width: 16px;
+    height: 16px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+}
+
+/* ------------------------------------------------------------
+   5. CONTENT AREA (nơi chứa nội dung riêng từng trang)
+   ------------------------------------------------------------ */
+.content {
+    flex: 1;
+    padding: var(--spacing-lg);
+    background-color: var(--bg-body);
+}
+
+/* Breadcrumb điều hướng, đặt đầu content */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-md);
+}
+
+.breadcrumb a {
+    color: var(--text-muted);
+}
+
+.breadcrumb a:hover {
+    color: var(--color-primary);
+}
+
+.breadcrumb .current {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* Card nền trắng bọc nội dung chính (bảng, form...) — dùng LẶP LẠI mọi trang */
+.page-card {
+    background-color: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Thanh tiêu đề trang + hành động (nút Thêm mới...) nằm ngang hàng */
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-lg);
+}
+
+/* ------------------------------------------------------------
+   6. RESPONSIVE — thu gọn sidebar trên màn hình nhỏ (tuỳ chọn)
+   Có thể bỏ qua nếu project chỉ target màn hình desktop
+   ------------------------------------------------------------ */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        left: calc(-1 * var(--sidebar-width));  /* ẩn ngoài màn hình */
+        transition: left var(--transition-normal);
+        z-index: 100;
+    }
+
+    .sidebar.open {
+        left: 0;                 /* class .open thêm bằng JS khi bấm nút menu mobile */
+    }
+}

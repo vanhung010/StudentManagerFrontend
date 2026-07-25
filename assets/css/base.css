@@ -1,0 +1,166 @@
+/* ============================================================
+   BASE.CSS
+   Reset CSS + biến dùng chung (CSS Variables) + typography nền tảng
+   File này PHẢI được load ĐẦU TIÊN, trước mọi file CSS khác.
+   Mọi trang HTML (trừ có lý do đặc biệt) đều cần file này.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. CSS VARIABLES (biến dùng chung toàn hệ thống)
+   Đổi màu/kích thước ở ĐÂY sẽ ảnh hưởng đồng bộ toàn bộ 30+ trang.
+   Không hardcode màu trực tiếp trong các file CSS khác — luôn
+   dùng var(--ten-bien) để dễ đổi theme sau này.
+   ------------------------------------------------------------ */
+:root {
+    /* Màu chủ đạo (thương hiệu) */
+    --color-primary: #2563EB;        /* xanh dương chính — nút, link, active menu */
+    --color-primary-hover: #1D4ED8;  /* xanh dương đậm hơn — trạng thái hover */
+    --color-primary-light: #DBEAFE;  /* xanh dương nhạt — nền badge, hover nhẹ */
+
+    /* Màu trạng thái (dùng cho badge, thông báo, validate) */
+    --color-success: #16A34A;        /* xanh lá — thành công, đã thanh toán, đạt */
+    --color-success-bg: #DCFCE7;     /* nền nhạt cho badge success */
+
+    --color-warning: #D97706;        /* cam vàng — đang chờ, chưa duyệt */
+    --color-warning-bg: #FEF3C7;     /* nền nhạt cho badge warning */
+
+    --color-danger: #DC2626;         /* đỏ — lỗi, xóa, rớt môn, quá hạn */
+    --color-danger-bg: #FEE2E2;      /* nền nhạt cho badge danger */
+
+    --color-info: #0891B2;           /* xanh ngọc — thông tin phụ, badge trung tính */
+    --color-info-bg: #CFFAFE;
+
+    /* Màu chữ */
+    --text-primary: #111827;         /* chữ chính, tiêu đề */
+    --text-secondary: #4B5563;       /* chữ phụ, mô tả */
+    --text-muted: #9CA3AF;           /* chữ mờ, placeholder, ghi chú nhỏ */
+    --text-on-primary: #FFFFFF;      /* chữ trên nền màu primary (nút, sidebar active) */
+
+    /* Màu nền */
+    --bg-body: #F3F4F6;              /* nền toàn trang (ngoài card) */
+    --bg-surface: #FFFFFF;           /* nền card, bảng, modal */
+    --bg-sidebar: #1E293B;           /* nền sidebar (tối) */
+    --bg-sidebar-hover: #334155;     /* nền menu item khi hover trong sidebar */
+
+    /* Viền */
+    --border-color: #E5E7EB;         /* viền mặc định cho input, card, table */
+    --border-color-focus: var(--color-primary); /* viền khi input được focus */
+
+    /* Bo góc (border-radius) */
+    --radius-sm: 4px;                /* badge, input nhỏ */
+    --radius-md: 8px;                /* card, button, input */
+    --radius-lg: 12px;               /* modal, card lớn */
+    --radius-full: 9999px;           /* dùng cho avatar tròn, badge dạng pill */
+
+    /* Khoảng cách (spacing) — dùng thay vì hardcode px lẻ tẻ */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+
+    /* Bóng đổ (box-shadow) */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);   /* dùng cho modal nổi */
+
+    /* Font */
+    --font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --font-size-xs: 12px;
+    --font-size-sm: 14px;
+    --font-size-md: 16px;
+    --font-size-lg: 20px;
+    --font-size-xl: 24px;
+
+    /* Kích thước layout — dùng lại trong layout.css */
+    --sidebar-width: 250px;
+    --header-height: 60px;
+
+    /* Transition dùng chung cho hover/focus mượt */
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.25s ease;
+}
+
+/* ------------------------------------------------------------
+   2. RESET CSS
+   Xóa margin/padding mặc định của trình duyệt, đồng bộ box-sizing
+   ------------------------------------------------------------ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+    background-color: var(--bg-body);
+    line-height: 1.5;
+}
+
+/* Xóa gạch chân + màu mặc định của link, để component.css tự định nghĩa lại */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Ảnh không tràn ra ngoài khung chứa */
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* Input/button kế thừa font thay vì dùng font mặc định trình duyệt */
+input,
+button,
+select,
+textarea {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+/* ------------------------------------------------------------
+   3. TYPOGRAPHY NỀN TẢNG
+   Áp dụng nhất quán cho heading, đoạn văn ở mọi trang
+   ------------------------------------------------------------ */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.3;
+}
+
+h1 { font-size: var(--font-size-xl); }   /* tiêu đề trang, VD: "Quản lý Khoa" */
+h2 { font-size: var(--font-size-lg); }   /* tiêu đề section trong 1 trang */
+h3 { font-size: var(--font-size-md); }   /* tiêu đề nhỏ, card title */
+
+p {
+    color: var(--text-secondary);
+}
+
+small {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+/* ------------------------------------------------------------
+   4. TIỆN ÍCH DÙNG NHANH (utility class tối thiểu)
+   Chỉ thêm những gì Bootstrap không có sẵn hoặc hay dùng lặp lại
+   ------------------------------------------------------------ */
+.text-muted   { color: var(--text-muted); }
+.text-primary-color { color: var(--color-primary); }
+.text-success { color: var(--color-success); }
+.text-danger  { color: var(--color-danger); }
+
+.hidden { display: none !important; }
