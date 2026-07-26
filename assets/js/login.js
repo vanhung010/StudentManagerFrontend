@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('loginForm');
     const errorBox = document.getElementById('loginError');
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
         errorBox.classList.add('hidden');
 
@@ -28,8 +28,30 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // TODO: gọi API thật khi api.js sẵn sàng
-        // const res = await apiFetch('/auth/login', 'POST', { username, password });
-        // xử lý redirect theo role tại đây
+        try {
+            const res = await apiFetch('/auth/login', 'POST', { username, password });
+            saveSession(username, password, res.data);
+
+            switch (res.data.role) {
+                case 'ADMIN':
+                    window.location.href = 'admin/admin-dashboard.html';
+                    break;
+                case 'TEACHER':
+                    window.location.href = 'teacher/teacher-dashboard.html';
+                    break;
+                case 'STUDENT':
+                    window.location.href = 'student/student-dashboard.html';
+                    break;
+            }
+        } catch (err) {
+            errorBox.textContent = err.message;
+            errorBox.classList.remove('hidden');
+        }
     });
+});
+
+document.getElementById('logoutBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    clearSession();
+    window.location.href = getLoginPath();
 });

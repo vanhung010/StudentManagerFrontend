@@ -1,0 +1,189 @@
+/* ============================================================
+   TEACHER-DASHBOARD.CSS
+   Style riêng cho trang Bảng điều khiển Giảng viên — không dùng
+   lại ở trang khác nên tách riêng khỏi components.css chung.
+   Load sau base.css, layout.css, components.css
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. Ô TÌM KIẾM + ICON TRONG HEADER (đồng bộ với admin/student)
+   ------------------------------------------------------------ */
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    background-color: var(--bg-body);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    color: var(--text-muted);
+    width: 220px;
+}
+.search-box input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+}
+
+.header-icon-btn {
+    color: var(--text-muted);
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.header-icon-btn:hover { color: var(--text-primary); }
+
+/* Chấm đỏ báo có thông báo mới (không hiện số) */
+.header-notification-dot {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-danger);
+    border: 2px solid var(--bg-surface);
+}
+
+/* ------------------------------------------------------------
+   2. STAT CARD — icon tròn nằm bên phải, label/value bên trái
+   ------------------------------------------------------------ */
+.stat-cards-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.stat-cards-row .stat-card {
+    flex: 0 1 260px;
+}
+
+.stat-card-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+}
+
+.stat-icon-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------
+   3. LAYOUT 2 CỘT: LỊCH DẠY + THÔNG BÁO
+   ------------------------------------------------------------ */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--spacing-lg);
+    align-items: start;
+}
+
+.card-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-md);
+}
+.card-header-row a {
+    font-size: var(--font-size-xs);
+    color: var(--color-primary);
+    font-weight: 500;
+}
+.card-header-row a:hover { color: var(--color-primary-hover); }
+
+/* ------------------------------------------------------------
+   4. DÒNG LỊCH DẠY (thay cho table — mỗi buổi dạy 1 khối)
+   ------------------------------------------------------------ */
+.class-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-sm);
+}
+.class-item:last-child { margin-bottom: 0; }
+
+.class-item.ongoing {
+    background-color: var(--color-primary-light);
+    border-color: var(--color-primary-light);
+}
+
+.class-time {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 56px;
+    flex-shrink: 0;
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+}
+.class-time small {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.class-info { flex: 1; min-width: 0; }
+.class-info p {
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: var(--font-size-sm);
+    margin-bottom: 2px;
+}
+.class-info small {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-muted);
+}
+.class-info small svg:nth-of-type(2) { margin-left: var(--spacing-sm); }
+
+/* ------------------------------------------------------------
+   5. DANH SÁCH THÔNG BÁO (đồng bộ với student-dashboard.css)
+   ------------------------------------------------------------ */
+.notice-list { list-style: none; }
+.notice-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.notice-item:last-child { border-bottom: none; }
+.notice-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    margin-top: 6px;
+    flex-shrink: 0;
+}
+.notice-dot.danger  { background-color: var(--color-danger); }
+.notice-dot.info    { background-color: var(--color-info); }
+.notice-dot.neutral { background-color: var(--text-muted); }
+.notice-item p {
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+@media (max-width: 900px) {
+    .dashboard-grid { grid-template-columns: 1fr; }
+    .stat-cards-row .stat-card { flex: 1 1 100%; }
+    .search-box { width: 180px; }
+}

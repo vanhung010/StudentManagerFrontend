@@ -176,6 +176,47 @@
 }
 
 /* ------------------------------------------------------------
+   7A. DIVIDER ĐĂNG KÝ
+   ------------------------------------------------------------ */
+.signup-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: var(--spacing-lg) 0;
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+.signup-divider::before,
+.signup-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: var(--color-border);
+}
+
+.signup-divider::before {
+    margin-right: var(--spacing-md);
+}
+
+.signup-divider::after {
+    margin-left: var(--spacing-md);
+}
+
+/* ------------------------------------------------------------
+   7B. NÚT ĐĂNG KÝ
+   ------------------------------------------------------------ */
+.btn-signup {
+    width: 100%;
+    padding: var(--spacing-md);
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+}
+
+/* ------------------------------------------------------------
    8. FOOTER
    ------------------------------------------------------------ */
 .login-footer {

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bảng điều khiển - EduManager</title>
+
+<!-- Thứ tự load: base -> layout -> components (đúng quy định trong từng file) -->
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="../../assets/css/layout.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../../assets/css/pages/student-dashboard.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+</head>
+<body>
+
+<div class="app-layout">
+
+    <!-- ========================= SIDEBAR ========================= -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            EduManager
+            <small>Hệ thống quản lý</small>
+        </div>
+
+        <ul class="sidebar-menu">
+            <li class="sidebar-menu-item"><a href="#" class="active"><i class="bi bi-grid-1x2-fill"></i> Bảng điều khiển</a></li>
+            <li class="sidebar-menu-item"><a href="#"><i class="bi bi-journal-plus"></i> Đăng ký môn học</a></li>
+            <li class="sidebar-menu-item"><a href="#"><i class="bi bi-calendar3"></i> Thời khóa biểu</a></li>
+            <li class="sidebar-menu-item"><a href="#"><i class="bi bi-star"></i> Bảng điểm</a></li>
+            <li class="sidebar-menu-item"><a href="#"><i class="bi bi-cash-coin"></i> Học phí</a></li>
+            <li class="sidebar-menu-item"><a href="#"><i class="bi bi-bell"></i> Thông báo</a></li>
+            <li class="sidebar-menu-item"><a href="#"><i class="bi bi-person"></i> Trang cá nhân</a></li>
+        </ul>
+        <div class="sidebar-user">
+            <a href="../../login.html" style="display:flex; align-items:center; gap:8px; color:#CBD5E1;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                Đăng xuất
+            </a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+
+        <!-- ========================= HEADER ========================= -->
+        <header class="header">
+            <h1 class="header-title">Bảng điều khiển</h1>
+            <div class="header-actions">
+                <div class="search-box">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" placeholder="Tìm kiếm...">
+                </div>
+                <button class="header-icon-btn header-notification">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    <span class="header-notification-badge">3</span>
+                </button>
+                <button class="header-icon-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"></path></svg>
+                </button>
+                <img class="avatar avatar-sm" src="https://i.pravatar.cc/64" alt="Nguyễn Văn A">
+            </div>
+        </header>
+
+        <!-- ========================= CONTENT ========================= -->
+        <main class="content">
+
+            <div class="page-header">
+                <div>
+                    <h1>Xin chào, Nguyễn Văn A</h1>
+                    <p>Học kỳ 1 - Năm học 2023-2024</p>
+                </div>
+                <div class="page-header-info">
+                    <small>CẬP NHẬT LÚC</small>
+                    <span>08:30 AM, Hôm nay</span>
+                </div>
+            </div>
+
+            <!-- ---- Stat cards ---- -->
+            <div class="stat-cards-row">
+
+                <div class="stat-card">
+                    <div class="stat-card-icon"><i class="bi bi-mortarboard-fill"></i></div>
+                    <div class="stat-card-label">GPA HIỆN TẠI</div>
+                    <div class="stat-card-value">3.85</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-row">
+                        <div class="stat-card-label">TÍN CHỈ ĐĂNG KÝ</div>
+                        <div class="stat-card-value">18/25</div>
+                    </div>
+                    <div class="progress" style="margin-top: var(--spacing-sm);">
+                        <div class="progress-bar" style="width: 72%;"></div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-label">HỌC PHÍ</div>
+                    <span class="badge badge-success" style="width: fit-content;">
+                        <i class="bi bi-check-circle-fill" style="margin-right:4px;"></i> Đã thanh toán
+                    </span>
+                </div>
+
+            </div>
+
+            <!-- ---- Lịch học + Thông báo ---- -->
+            <div class="dashboard-grid">
+
+                <div class="page-card">
+                    <div class="card-header-row">
+                        <h2>Lịch học hôm nay</h2>
+                        <a href="#">Xem tất cả</a>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Thời gian</th>
+                                <th>Môn học</th>
+                                <th>Phòng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>07:30 - 09:10</td>
+                                <td>
+                                    Cấu trúc dữ liệu và giải thuật<br>
+                                    <small><i class="bi bi-person"></i> TS. Trần Văn B</small>
+                                </td>
+                                <td><span class="badge badge-info">Phòng 301-A2</span></td>
+                            </tr>
+                            <tr>
+                                <td>09:20 - 11:00</td>
+                                <td>
+                                    Mạng máy tính<br>
+                                    <small><i class="bi bi-person"></i> ThS. Lê Thị C</small>
+                                </td>
+                                <td><span class="badge badge-info">Phòng 205-B1</span></td>
+                            </tr>
+                            <tr>
+                                <td>13:00 - 15:30</td>
+                                <td>
+                                    Thực hành Cơ sở dữ liệu<br>
+                                    <small><i class="bi bi-person"></i> ThS. Phạm Văn D</small>
+                                </td>
+                                <td><span class="badge badge-neutral">Phòng Lab 2-C3</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="page-card">
+                    <div class="card-header-row">
+                        <h2><i class="bi bi-megaphone"></i> Thông báo gần nhất</h2>
+                    </div>
+
+                    <ul class="notice-list">
+                        <li class="notice-item">
+                            <span class="notice-dot danger"></span>
+                            <div>
+                                <p>Thông báo: Lịch nghỉ lễ Quốc khánh 2/9</p>
+                                <small>20/08/2023</small>
+                            </div>
+                        </li>
+                        <li class="notice-item">
+                            <span class="notice-dot info"></span>
+                            <div>
+                                <p>Hướng dẫn đăng ký môn học kỳ 2</p>
+                                <small>15/08/2023</small>
+                            </div>
+                        </li>
+                        <li class="notice-item">
+                            <span class="notice-dot neutral"></span>
+                            <div>
+                                <p>Kết quả xét học bổng khuyến khích học tập</p>
+                                <small>10/08/2023</small>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <button class="btn btn-secondary" style="width: 100%; margin-top: var(--spacing-md);">
+                        Xem tất cả thông báo
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- ---- Banner đăng ký môn học ---- -->
+            <div class="promo-banner">
+                <div class="promo-banner-left">
+                    <div class="promo-banner-icon"><i class="bi bi-lightning-charge-fill"></i></div>
+                    <div class="promo-banner-text">
+                        <h3>Thời gian đăng ký môn học đang mở!</h3>
+                        <p>Hãy đăng ký các môn học cho học kỳ tới trước hạn chót.</p>
+                    </div>
+                </div>
+                <button class="btn btn-primary">
+                    Đăng ký ngay <i class="bi bi-arrow-right"></i>
+                </button>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+</body>
+</html>

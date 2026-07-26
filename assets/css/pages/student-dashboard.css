@@ -1,0 +1,173 @@
+/* ============================================================
+   STUDENT-DASHBOARD.CSS
+   CSS riêng cho trang Dashboard Sinh viên (student/dashboard.html).
+   Chỉ chứa những gì base.css / layout.css / components.css CHƯA có sẵn.
+   Toàn bộ vẫn tái sử dụng biến (var) khai báo trong base.css để
+   đồng bộ theme, không hardcode màu/kích thước mới.
+   Load SAU base.css, layout.css, components.css.
+   ============================================================ */
+
+    /* ------------------------------------------------------------
+       Các rule bổ sung riêng cho trang Dashboard Sinh viên.
+       Chỉ thêm những gì base/layout/components chưa có sẵn,
+       toàn bộ vẫn dùng lại biến (var) từ base.css để đồng bộ theme.
+       ------------------------------------------------------------ */
+
+    /* Ô tìm kiếm trong header — đồng bộ với admin-dashboard.css */
+    .search-box {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+        background-color: var(--bg-body);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        padding: var(--spacing-xs) var(--spacing-sm);
+        color: var(--text-muted);
+        width: 220px;
+    }
+    .search-box input {
+        border: none;
+        background: transparent;
+        outline: none;
+        width: 100%;
+        font-size: var(--font-size-sm);
+        color: var(--text-primary);
+    }
+
+    .header-icon-btn {
+        color: var(--text-muted);
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .header-icon-btn:hover { color: var(--text-primary); }
+
+    /* Tiêu đề trang có phần phụ (ngày giờ cập nhật) nằm bên phải */
+    .page-header-info { text-align: right; }
+    .page-header-info small { display: block; }
+    .page-header-info span {
+        font-size: var(--font-size-sm);
+        color: var(--text-secondary);
+        font-weight: 500;
+    }
+
+    /* Icon tròn trong stat-card (thay cho icon số liệu mặc định) */
+    .stat-card-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-full);
+        background-color: var(--color-primary-light);
+        color: var(--color-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--font-size-lg);
+        margin-bottom: var(--spacing-xs);
+    }
+
+    /* Hàng label + giá trị nằm ngang cho card "Tín chỉ đăng ký" */
+    .stat-card-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+    }
+    .stat-card-row .stat-card-value { font-size: var(--font-size-lg); }
+
+    /* Header của mỗi page-card: tiêu đề + link "xem tất cả" */
+    .card-header-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: var(--spacing-md);
+    }
+    .card-header-row a {
+        font-size: var(--font-size-xs);
+        color: var(--color-primary);
+        font-weight: 500;
+    }
+    .card-header-row a:hover { color: var(--color-primary-hover); }
+
+    /* Danh sách thông báo */
+    .notice-list { list-style: none; }
+    .notice-item {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--spacing-sm);
+        padding: var(--spacing-sm) 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .notice-item:last-child { border-bottom: none; }
+    .notice-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: var(--radius-full);
+        margin-top: 6px;
+        flex-shrink: 0;
+    }
+    .notice-dot.danger  { background-color: var(--color-danger); }
+    .notice-dot.info    { background-color: var(--color-info); }
+    .notice-dot.neutral { background-color: var(--text-muted); }
+    .notice-item p {
+        font-size: var(--font-size-sm);
+        color: var(--text-primary);
+        font-weight: 500;
+        margin-bottom: 2px;
+    }
+
+    /* Banner quảng bá "đăng ký môn học" */
+    .promo-banner {
+        background-color: var(--color-primary);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-lg);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--spacing-md);
+        margin-top: var(--spacing-lg);
+    }
+    .promo-banner-left {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+    }
+    .promo-banner-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: var(--radius-full);
+        background-color: rgba(255, 255, 255, 0.15);
+        color: var(--text-on-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--font-size-lg);
+        flex-shrink: 0;
+    }
+    .promo-banner-text h3 { color: var(--text-on-primary); margin-bottom: 2px; }
+    .promo-banner-text p  { color: var(--color-primary-light); font-size: var(--font-size-sm); }
+    .promo-banner .btn-primary {
+        background-color: var(--text-on-primary);
+        color: var(--color-primary);
+        flex-shrink: 0;
+    }
+    .promo-banner .btn-primary:hover { background-color: var(--color-primary-light); }
+
+    /* Layout 2 cột: lịch học (rộng hơn) + thông báo */
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: var(--spacing-lg);
+        align-items: start;
+    }
+
+    .stat-cards-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    @media (max-width: 900px) {
+        .dashboard-grid { grid-template-columns: 1fr; }
+        .stat-cards-row { grid-template-columns: 1fr; }
+        .search-box { width: 200px; }
+    }

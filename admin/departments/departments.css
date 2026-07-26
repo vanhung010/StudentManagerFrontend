@@ -1,0 +1,32 @@
+/* ============================================================
+   DEPARTMENTS.CSS
+   Style riêng cho trang Quản lý Khoa (và tái dùng được cho các
+   trang danh sách khác có cấu trúc tương tự: toolbar + table).
+   Load sau base.css, layout.css, components.css
+   ============================================================ */
+
+/* Thanh công cụ trên bảng: "Tổng số: X" bên trái + ô tìm kiếm bên phải */
+.table-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-md);
+}
+
+/* Cột "Thao tác" — icon sửa/xóa nằm ngang hàng, canh phải */
+.col-actions {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.col-actions .btn-icon {
+    margin-left: var(--spacing-xs);
+}
+
+.col-actions.header-col {
+    text-align: right;
+}
+
+th.col-actions {
+    text-align: right;
+}
