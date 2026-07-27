@@ -1,6 +1,8 @@
 /* ============================================================
    LAYOUT.CSS
    Bố cục khung sườn dùng chung cho mọi trang SAU KHI ĐĂNG NHẬP
+
+   
    (admin/*, teacher/*, student/*) — KHÔNG dùng cho login.html
    Load SAU base.css, TRƯỚC components.css
    ============================================================ */

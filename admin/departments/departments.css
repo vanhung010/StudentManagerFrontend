@@ -17,10 +17,15 @@
 .col-actions {
     text-align: right;
     white-space: nowrap;
+    min-width: 96px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--spacing-xs);
 }
 
 .col-actions .btn-icon {
-    margin-left: var(--spacing-xs);
+    margin-left: 0;
 }
 
 .col-actions.header-col {
@@ -29,4 +34,31 @@
 
 th.col-actions {
     text-align: right;
+}
+
+.table-toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+/* Dropdown filter trạng thái */
+.filter-status {
+    width: auto;
+    min-width: 160px;
+    cursor: pointer;
+}
+
+/* Icon khôi phục (undo) — màu xanh success khi hover, giống pattern .btn-icon.danger */
+.btn-icon.success:hover {
+    background-color: var(--color-success-bg);
+    color: var(--color-success);
+}
+
+/* Làm mờ nhẹ dòng đã xóa để phân biệt trực quan trong bảng */
+.row-deleted {
+    opacity: 0.7;
+}
+.row-deleted td:not(.col-actions) {
+    color: var(--text-muted);
 }

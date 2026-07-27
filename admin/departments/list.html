@@ -12,6 +12,9 @@
 
 <script src="../../assets/js/api.js"></script>
 <script src="../../assets/js/auth.js"></script>
+<script>
+    requireRole('ADMIN');   
+</script>
 </head>
 <body>
 
@@ -31,12 +34,19 @@
                     Bảng điều khiển
                 </a>
             </li>
+             <li class="sidebar-menu-item">
+                <a href="../teachers/list.html">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    Giảng viên
+                </a>
+            </li>
             <li class="sidebar-menu-item">
                 <a href="../students/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path></svg>
                     Sinh viên
                 </a>
             </li>
+          
             <li class="sidebar-menu-item">
                 <a href="list.html" class="active">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M5 21V7l7-4 7 4v14"></path><path d="M9 9h1"></path><path d="M9 13h1"></path><path d="M14 9h1"></path><path d="M14 13h1"></path></svg>
@@ -117,11 +127,20 @@
             <div class="page-card">
 
                 <div class="table-toolbar">
-                    <span class="text-muted">Tổng số: <strong class="text-primary-color">5</strong> Khoa</span>
-                    <div class="search-box">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                        <input type="text" placeholder="Tìm tên khoa...">
-                    </div>
+                    <span class="text-muted">Tổng số: <strong class="text-primary-color" id ="total-department">5</strong> Khoa</span>
+
+                         <div class="table-toolbar-right">
+                             <select class="form-control filter-status" id="statusFilter">
+                                 <option value="active">Đang hoạt động</option>
+                                 <option value="deleted">Đã xóa</option>
+                                 <option value="all">Tất cả</option>
+                             </select>
+
+                            <div class="search-box">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                 <input type="text" placeholder="Tìm tên khoa...">
+                            </div>
+                         </div>
                 </div>
 
                 <table class="table">
@@ -131,80 +150,12 @@
                             <th>TÊN KHOA</th>
                             <th>SỐ SINH VIÊN</th>
                             <th>SỐ GIẢNG VIÊN</th>
+                            <th>Tình trạng</th>
                             <th class="col-actions">THAO TÁC</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><strong>CNTT</strong></td>
-                            <td class="text-primary-color">Công nghệ thông tin</td>
-                            <td>450</td>
-                            <td>45</td>
-                            <td class="col-actions">
-                                <button class="btn-icon" title="Sửa">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path></svg>
-                                </button>
-                                <button class="btn-icon danger" title="Xóa">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>KTE</strong></td>
-                            <td class="text-primary-color">Kinh tế</td>
-                            <td>380</td>
-                            <td>30</td>
-                            <td class="col-actions">
-                                <button class="btn-icon" title="Sửa">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path></svg>
-                                </button>
-                                <button class="btn-icon danger" title="Xóa">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>NNG</strong></td>
-                            <td class="text-primary-color">Ngoại ngữ</td>
-                            <td>220</td>
-                            <td>25</td>
-                            <td class="col-actions">
-                                <button class="btn-icon" title="Sửa">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path></svg>
-                                </button>
-                                <button class="btn-icon danger" title="Xóa">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>LUT</strong></td>
-                            <td class="text-primary-color">Luật</td>
-                            <td>150</td>
-                            <td>15</td>
-                            <td class="col-actions">
-                                <button class="btn-icon" title="Sửa">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path></svg>
-                                </button>
-                                <button class="btn-icon danger" title="Xóa">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>YDC</strong></td>
-                            <td class="text-primary-color">Y dược</td>
-                            <td>60</td>
-                            <td>12</td>
-                            <td class="col-actions">
-                                <button class="btn-icon" title="Sửa">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path></svg>
-                                </button>
-                                <button class="btn-icon danger" title="Xóa">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                                </button>
-                            </td>
-                        </tr>
+                      
                     </tbody>
                 </table>
 
