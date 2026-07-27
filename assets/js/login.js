@@ -50,8 +50,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-document.getElementById('logoutBtn').addEventListener('click', (e) => {
-    e.preventDefault();
-    clearSession();
-    window.location.href = getLoginPath();
-});
+
