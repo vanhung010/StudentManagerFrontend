@@ -15,6 +15,7 @@ function getCurrentUser() {
 function clearSession() {
     sessionStorage.removeItem('credentials');
     sessionStorage.removeItem('user');
+    console.log("Đã clear item")
 }
 
 // Chặn truy cập nếu chưa đăng nhập HOẶC sai role — gọi ở đầu mỗi trang
@@ -34,3 +35,15 @@ function getLoginPath() {
     const depth = window.location.pathname.split('/').filter(Boolean).length;
     return '../'.repeat(Math.max(depth - 1, 0)) + 'login.html';
 }
+
+
+function initLogout(){
+    const btnLogout = document.querySelector("#logout");
+
+    btnLogout.addEventListener("click", () => {
+    clearSession();
+})
+}
+
+document.addEventListener("DOMContentLoaded", initLogout);
+
