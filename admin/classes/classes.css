@@ -1,0 +1,90 @@
+/* ============================================================
+   CLASSES.CSS
+   Style riêng cho trang Quản lý Lớp hành chính: hàng filter 3 cột,
+   ô hiển thị cố vấn (avatar + tên), ô sĩ số kèm progress bar.
+   Load sau base.css, layout.css, components.css
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. HÀNG BỘ LỌC — 3 cột: Khoa / Năm nhập học / Tìm kiếm
+   ------------------------------------------------------------ */
+.filter-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.filter-item {
+    margin-bottom: 0;   /* ghi đè margin mặc định của .form-group vì đã có gap ở .filter-row */
+}
+
+.search-box-full {
+    width: 100%;
+}
+
+/* ------------------------------------------------------------
+   2. Ô "CỐ VẤN HỌC TẬP" trong bảng — avatar + tên cùng hàng
+   ------------------------------------------------------------ */
+.advisor-cell {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.advisor-cell span {
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+}
+
+/* ------------------------------------------------------------
+   3. Ô "SỐ SINH VIÊN" — chỉ hiển thị con số hiện tại, không có
+      progress bar vì Backend chưa có field sĩ số tối đa (maxCapacity)
+   ------------------------------------------------------------ */
+.student-count {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* ------------------------------------------------------------
+   4. CỘT THAO TÁC
+   ------------------------------------------------------------ */
+.col-actions {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.col-actions .btn-icon {
+    margin-left: var(--spacing-xs);
+}
+
+/* ------------------------------------------------------------
+   5. INPUT CÓ ICON (ô tìm kiếm giảng viên trong modal)
+   Dùng lại pattern từ login.css
+   ------------------------------------------------------------ */
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: var(--spacing-md);
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+.input-icon-padding {
+    padding-left: 40px;
+}
+
+/* ------------------------------------------------------------
+   6. RESPONSIVE — filter dồn xuống 1 cột trên màn hình nhỏ
+   ------------------------------------------------------------ */
+@media (max-width: 900px) {
+    .filter-row {
+        grid-template-columns: 1fr;
+    }
+}

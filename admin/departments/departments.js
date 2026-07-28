@@ -8,6 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnClose = document.getElementById('closeModal');
     const btnCancel = document.getElementById('cancelModal');
     const btnSave = document.getElementById('saveDepartment');
+    const searchInput = document.querySelector('.table-toolbar input');
+    const statusFilter = document.getElementById('statusFilter');
+
+    let currentKeyword = '';
     let editingId = null;
 
 
@@ -67,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(!btn || !btn.dataset.id) return;
         if (!confirm('Bạn có chắc muốn xóa khoa này?')) return;
 
-       apiFetch(`/departments/${btn.dataset.id}`, "DELETE").then(() => loadDepartments(statusFilter.value, 0))
+       apiFetch(`/departments/${btn.dataset.id}`, "DELETE").then(() => loadDepartments(currentPage, statusFilter.value, currentKeyword))
 
     
     })
@@ -80,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
          if(!btn || !btn.dataset.id) return;
         if (!confirm('Bạn có chắc muốn khôi phục khoa này?')) return;
 
-        apiFetch(`/departments/${btn.dataset.id}`, "PATCH").then(() => loadDepartments(statusFilter.value, 0))
+        apiFetch(`/departments/${btn.dataset.id}`, "PATCH").then(() => loadDepartments(currentPage, statusFilter.value, currentKeyword))
     })
 
     btnAdd.addEventListener('click', openModal);
@@ -113,27 +117,29 @@ document.addEventListener('DOMContentLoaded', () => {
             await apiFetch("/departments", "POST", { departmentCode: code, name: name });
            }
            closeModal();
-        loadDepartments();
+           loadDepartments(0, statusFilter.value, currentKeyword);
         }
         catch(err){
             alert(err.message)
         }
         finally {
-            btnSave.disable = false;
+            btnSave.disabled = false;
             btnSave.textContent = "Lưu"
         }
 });
 
-    async function loadDepartments(page = 0, status = "active"){
+    async function loadDepartments(page = 0, status = "active", keyword = ''){
         try {
-            const res = await apiFetch(`/departments?status=${status}&page=${page}&size=${numberSize}`)
+            currentKeyword = keyword;
+            const query = keyword ? `&keyword=${encodeURIComponent(keyword)}` : '';
+            const res = await apiFetch(`/departments?status=${status}&page=${page}&size=${numberSize}${query}`);
             currentPage = page;
             renderTable(res.data.content);
 
-            updateTotalDepartment(res.data.totalElement)
-            renderPagination(res.data.currentPage, res.data.totalPages, res.data.totalElement, res.data.pageSize)
-            console.log(res.data.content)
-            console.log(res.data)
+            updateTotalDepartment(res.data.totalElement);
+            renderPagination(res.data.currentPage, res.data.totalPages, res.data.totalElement, res.data.pageSize);
+            console.log(res.data.content);
+            console.log(res.data);
         }
         catch(err){
             console.log(err.message);
@@ -158,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnPrev.textContent = "Trước";
         btnPrev.disabled = currentPage === 0;
         btnPrev.addEventListener('click', () => {
-            loadDepartments(currentPage - 1 );
+            loadDepartments(currentPage - 1, statusFilter.value, currentKeyword);
         })
         control.appendChild(btnPrev);
         //Các nút số trang
@@ -169,16 +175,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 btnPage.classList.add('active');
             }
 
-            btnPage.addEventListener('click', () => loadDepartments(i));
+            btnPage.addEventListener('click', () => loadDepartments(i, statusFilter.value, currentKeyword));
             control.appendChild(btnPage);
         }
         //Nút "Tiếp"
         const btnNext = document.createElement('button');
         btnNext.textContent = 'Tiếp';
         btnNext.disabled = currentPage >= totalPages - 1;
-        btnNext.addEventListener('click', () => loadDepartments(currentPage + 1));
+        btnNext.addEventListener('click', () => loadDepartments(currentPage + 1, statusFilter.value, currentKeyword));
         control.appendChild(btnNext);
     }
+
+
+
+    let searchTimeout;
+    searchInput.addEventListener('input', () => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            const keyword = searchInput.value.trim();
+            loadDepartments(0, statusFilter.value, keyword);
+        }, 300 )
+    })
 
 
     function renderTable(departments){
@@ -229,8 +246,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     statusFilter.addEventListener('change', () => {
-    loadDepartments(statusFilter.value, 0);
-});
+        loadDepartments(0, statusFilter.value, currentKeyword);
+    });
 
-    loadDepartments();
+    loadDepartments(0, statusFilter.value, currentKeyword);
 });
