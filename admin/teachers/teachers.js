@@ -2,6 +2,13 @@
 // TEACHERS.JS — Quản lý Giảng viên
 // ============================================================
 
+
+
+// ---------------- Modal Thêm Giảng viên ----------------
+
+
+document.addEventListener('DOMContentLoaded', async ()=> {
+
 let currentPage = 0;
 const pageSize = 10;
 
@@ -12,7 +19,6 @@ const teacherForm = document.getElementById('teacherForm');
 const btnAddTeacher = document.getElementById('btnAddTeacher');
 const btnSave = document.getElementById('saveTeacher');
 
-// ---------------- Modal Thêm Giảng viên ----------------
 function openModal() {
     teacherForm.reset();
     modal.classList.remove('hidden');
@@ -39,3 +45,8 @@ document.getElementById('togglePassword').addEventListener('click', () => {
 });
 
 // ---------------- Lưu (Tạo Giảng viên) ----------------
+
+//----------------LOAD Giảng viên---------
+    
+
+})

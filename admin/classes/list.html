@@ -148,10 +148,6 @@
                     <div class="form-group filter-item">
                         <label class="form-label">Khoa</label>
                         <select class="form-control" id="filterDepartment">
-                            <option value="">Tất cả khoa</option>
-                            <option value="CNTT">Công nghệ thông tin</option>
-                            <option value="KT">Kinh tế quốc tế</option>
-                            <option value="NN">Ngoại ngữ</option>
                         </select>
                     </div>
 
@@ -302,18 +298,18 @@
                 <div class="form-group">
                     <label class="form-label">Khoa</label>
                     <select class="form-control" id="classDepartment">
-                        <option value="">Chọn khoa quản lý</option>
-                        <option value="CNTT">Công nghệ thông tin</option>
-                        <option value="KT">Kinh tế quốc tế</option>
-                        <option value="NN">Ngoại ngữ</option>
+                      
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Cố vấn học tập</label>
-                    <div class="input-with-icon">
-                        <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                        <input type="text" class="form-control input-icon-padding" id="classAdvisor" placeholder="Tìm kiếm giảng viên...">
+                    <div class="advisor-input-wrap">
+                        <div class="input-with-icon">
+                            <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            <input type="text" class="form-control input-icon-padding" id="classAdvisor" placeholder="Tìm kiếm giảng viên..." autocomplete="off">
+                        </div>
+                        <div class="advisor-dropdown hidden" id="advisorDropdown" aria-label="Danh sách giảng viên"></div>
                     </div>
                 </div>
 
@@ -331,5 +327,7 @@
 </div>
 
 <script src="classes.js"></script>
+<script src="/assets/js/service/teacherService.js"></script>
+
 </body>
 </html>

@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 });
 
-    async function loadDepartments(page = 0, status = "active", keyword = ''){
+    function loadDepartments(page = 0, status = "active", keyword = ''){
         try {
             currentKeyword = keyword;
             const query = keyword ? `&keyword=${encodeURIComponent(keyword)}` : '';
@@ -138,8 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             updateTotalDepartment(res.data.totalElement);
             renderPagination(res.data.currentPage, res.data.totalPages, res.data.totalElement, res.data.pageSize);
-            console.log(res.data.content);
-            console.log(res.data);
+            
         }
         catch(err){
             console.log(err.message);
