@@ -68,16 +68,17 @@ function hideAdvisorDropdown() {
     advisorDropdown.innerHTML = '';
 }
 
-async function renderAdvisorDropdown(keyword = '') {
+async function renderAdvisorDropdown(keyword = '', departmentId = '') {
+    
 
-    const res = await getAllTeacher();
+    const res = await getAllTeacher(undefined, undefined, departmentId);
     const data = res.data.content;
 
-    console.log(data)
+
     const normalizedKeyword = keyword.trim().toLowerCase(); //dữ liệu nhập vào
     const filteredAdvisors = data.filter((advisor) => {
         if (!normalizedKeyword) return true;
-        return data.fullName.toLowerCase().includes(normalizedKeyword) || data.departmentName.toLowerCase().includes(normalizedKeyword);
+        return advisor.fullName.toLowerCase().includes(normalizedKeyword) || advisor.departmentName.toLowerCase().includes(normalizedKeyword);
     });
 
     advisorDropdown.innerHTML = '';
@@ -102,9 +103,10 @@ async function renderAdvisorDropdown(keyword = '') {
         `;
 
         item.addEventListener('click', () => {
-            inputAdvisor.value = advisor.name;
+            inputAdvisor.value = advisor.fullName;
+            inputAdvisor.setAttribute("id-advisor", advisor.id)
             hideAdvisorDropdown();
-            inputAdvisor.focus();
+            
         });
 
         advisorDropdown.appendChild(item);
@@ -114,7 +116,7 @@ async function renderAdvisorDropdown(keyword = '') {
 }
 
 
-// -------------ĐỔ DỮ LIỆU VÀO DROPDOWN DEPARTMENT
+// -------------ĐỔ DỮ LIỆU VÀO DROPDOWN DEPARTMENT-------------------------
 
 function populate(selectElement, departments, placeholderText){
     selectElement.innerHTML = `  <option value="">${placeholderText}</option>` //Dòng đầu
@@ -128,9 +130,12 @@ function populate(selectElement, departments, placeholderText){
 
 }
 
-inputAdvisor.addEventListener('focus', () => renderAdvisorDropdown(inputAdvisor.value));
-inputAdvisor.addEventListener('click', () => renderAdvisorDropdown(inputAdvisor.value));
-inputAdvisor.addEventListener('input', () => renderAdvisorDropdown(inputAdvisor.value));
+
+
+
+inputAdvisor.addEventListener('focus', () => renderAdvisorDropdown(inputAdvisor.value, document.getElementById('classDepartment').value));
+inputAdvisor.addEventListener('click', () => renderAdvisorDropdown(inputAdvisor.value, document.getElementById('classDepartment').value));
+inputAdvisor.addEventListener('input', () => renderAdvisorDropdown(inputAdvisor.value, document.getElementById('classDepartment').value));
 inputAdvisor.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') hideAdvisorDropdown();
 });
