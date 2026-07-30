@@ -152,4 +152,36 @@ document.addEventListener('click', (event) => {
     populate(document.getElementById('filterDepartment'), departments, 'Tất cả khoa');
     populate(document.getElementById('classDepartment'), departments, 'Chọn khoa quản lí')
 
+
+//----------------------------------------Lưu lớp mới------------------
+btnSave.addEventListener('click', async () => {
+    const inputCodeData = inputCode.value;
+    const inputNameData = inputName.value;
+    const departmentId = inputDepartment.value;
+    const advisorId = inputAdvisor.getAttribute('id-advisor')
+    const inputYearData = inputYear.value;
+
+        btnSave.disabled = true;
+        btnSave.textContent = 'Đang lưu';
+
+    try{
+        await apiFetch('/classes', 'POST', {
+            classCode: inputCodeData,
+            name: inputNameData,
+            departmentId: departmentId,
+            advisorId: advisorId,
+            enrollmentYear: inputYearData
+        })
+        closeModal();
+    }
+    catch(err){
+        alert(err.message)
+    }
+    finally {
+        btnSave.disabled = false;
+        btnSave.textContent = 'Lưu';
+    }
+})
+
+
 })
