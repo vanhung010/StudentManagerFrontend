@@ -10,7 +10,7 @@
    ------------------------------------------------------------ */
 .filter-row {
     display: grid;
-    grid-template-columns: 1fr 1fr 2fr;
+    grid-template-columns: 1fr 1fr 1fr 2fr;
     gap: var(--spacing-md);
     margin-bottom: var(--spacing-lg);
 }
@@ -47,6 +47,15 @@
     color: var(--text-primary);
 }
 
+.status-cell {
+    white-space: nowrap;
+}
+
+.status-badge {
+    min-width: 110px;
+    justify-content: center;
+}
+
 /* ------------------------------------------------------------
    4. CỘT THAO TÁC
    ------------------------------------------------------------ */
@@ -55,8 +64,11 @@
     white-space: nowrap;
 }
 
-.col-actions .btn-icon {
-    margin-left: var(--spacing-xs);
+.action-buttons {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-xs);
 }
 
 /* ------------------------------------------------------------

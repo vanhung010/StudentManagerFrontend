@@ -161,6 +161,15 @@
                         </select>
                     </div>
 
+                    <div class="form-group filter-item">
+                        <label class="form-label">Trạng thái</label>
+                        <select class="form-control" id="filterStatus">
+                            <option value="">Tất cả trạng thái</option>
+                            <option value="ACTIVE">Đang hoạt động</option>
+                            <option value="DELETED">Đã xóa</option>
+                        </select>
+                    </div>
+
                     <div class="form-group filter-item filter-item-search">
                         <label class="form-label">Tìm kiếm</label>
                         <div class="search-box search-box-full">
@@ -180,12 +189,13 @@
                             <th>CỐ VẤN HỌC TẬP</th>
                             <th>SỐ SINH VIÊN</th>
                             <th>NĂM NHẬP HỌC</th>
+                            <th>TRẠNG THÁI</th>
                             <th class="col-actions">THAO TÁC</th>
                         </tr>
                     </thead>
                     <tbody id="classTableBody">
                         <!-- Dữ liệu demo tĩnh — chưa gọi API -->
-                        <tr data-code="D21-CNTT01" data-name="Công nghệ thông tin 01" data-department="CNTT" data-advisor="Nguyễn Văn A" data-year="2021">
+                        <tr data-code="D21-CNTT01" data-name="Công nghệ thông tin 01" data-department="CNTT" data-advisor="Nguyễn Văn A" data-year="2021" data-status="ACTIVE">
                             <td><strong>D21-CNTT01</strong></td>
                             <td class="text-primary-color">Công nghệ thông tin 01</td>
                             <td><span class="badge badge-info">CNTT</span></td>
@@ -199,16 +209,19 @@
                                 <span class="student-count">45 sinh viên</span>
                             </td>
                             <td>2021</td>
+                            <td class="status-cell"><span class="badge badge-success status-badge">Đang hoạt động</span></td>
                             <td class="col-actions">
-                                <button class="btn-icon" title="Sửa" onclick="openEditModal(this)">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path></svg>
-                                </button>
-                                <button class="btn-icon danger" title="Xóa" onclick="deleteClass(this)">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                                </button>
+                                <div class="action-buttons">
+                                    <button class="btn-icon" title="Sửa" onclick="openEditModal(this)">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path></svg>
+                                    </button>
+                                    <button class="btn-icon danger" title="Xóa" onclick="deleteClass(this)">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
-                        <tr data-code="D21-CNTT02" data-name="Công nghệ thông tin 02" data-department="CNTT" data-advisor="Trần Thị B" data-year="2021">
+                        <tr data-code="D21-CNTT02" data-name="Công nghệ thông tin 02" data-department="CNTT" data-advisor="Trần Thị B" data-year="2021" data-status="ACTIVE">
                             <td><strong>D21-CNTT02</strong></td>
                             <td class="text-primary-color">Công nghệ thông tin 02</td>
                             <td><span class="badge badge-info">CNTT</span></td>
@@ -222,16 +235,19 @@
                                 <span class="student-count">48 sinh viên</span>
                             </td>
                             <td>2021</td>
+                            <td class="status-cell"><span class="badge badge-success status-badge">Đang hoạt động</span></td>
                             <td class="col-actions">
-                                <button class="btn-icon" title="Sửa" onclick="openEditModal(this)">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path></svg>
-                                </button>
-                                <button class="btn-icon danger" title="Xóa" onclick="deleteClass(this)">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                                </button>
+                                <div class="action-buttons">
+                                    <button class="btn-icon" title="Sửa" onclick="openEditModal(this)">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path></svg>
+                                    </button>
+                                    <button class="btn-icon danger" title="Xóa" onclick="deleteClass(this)">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
-                        <tr data-code="D22-KT01" data-name="Kinh tế quốc tế 01" data-department="KT" data-advisor="Lê Văn C" data-year="2022">
+                        <tr data-code="D22-KT01" data-name="Kinh tế quốc tế 01" data-department="KT" data-advisor="Lê Văn C" data-year="2022" data-status="DELETED">
                             <td><strong>D22-KT01</strong></td>
                             <td class="text-primary-color">Kinh tế quốc tế 01</td>
                             <td><span class="badge badge-warning">KT</span></td>
@@ -245,13 +261,16 @@
                                 <span class="student-count">50 sinh viên</span>
                             </td>
                             <td>2022</td>
+                            <td class="status-cell"><span class="badge badge-danger status-badge">Đã xóa</span></td>
                             <td class="col-actions">
-                                <button class="btn-icon" title="Sửa" onclick="openEditModal(this)">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path></svg>
-                                </button>
-                                <button class="btn-icon danger" title="Xóa" onclick="deleteClass(this)">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                                </button>
+                                <div class="action-buttons">
+                                    <button class="btn-icon" title="Sửa" onclick="openEditModal(this)">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path></svg>
+                                    </button>
+                                    <button class="btn-icon" title="Khôi phục" onclick="restoreClass(this)">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"></path><polyline points="3 3 3 9 9 9"></polyline></svg>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
