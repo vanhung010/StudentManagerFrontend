@@ -246,7 +246,7 @@ allClass.forEach((classItem) => {
                                     <button class="btn-icon" title="Sửa" onclick="openEditModal(this)">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path></svg>
                                     </button>
-                                    <button class="btn-icon" title="Khôi phục" onclick="restoreClass(this)">
+                                    <button class="btn-icon restore" title="Khôi phục" data-id = ${classItem.id} >
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"></path><polyline points="3 3 3 9 9 9"></polyline></svg>
                                     </button>
                                 </div>
@@ -260,7 +260,7 @@ allClass.forEach((classItem) => {
 loadAllClass()
 
 //-----------------Thêm hành động vào nút xóa, khôi phục, cập nhật
-
+//Nút xóa
 document.querySelector('.table tbody').addEventListener('click', (e) => {
 
     const btn = e.target.closest('.btn-icon.danger')
@@ -274,5 +274,13 @@ document.querySelector('.table tbody').addEventListener('click', (e) => {
     
     loadAllClass()
 })
+//Nút khôi phục
+document.querySelector('.table tbody').addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn-icon.restore')
+    if (!confirm('Bạn có chắc chắn muốn khôi phục lớp này?')) return;
 
+    apiFetch(`/classes/${btn.dataset.id}`, 'PATCH');
+
+    loadAllClass();
+})
 })
