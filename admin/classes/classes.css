@@ -60,15 +60,33 @@
    4. CỘT THAO TÁC
    ------------------------------------------------------------ */
 .col-actions {
-    text-align: right;
+    width: 120px;
+    min-width: 120px;
+    text-align: center;
+    vertical-align: middle;
     white-space: nowrap;
 }
 
+.table thead th.col-actions,
+.table tbody td.col-actions {
+    padding-left: var(--spacing-sm);
+    padding-right: var(--spacing-sm);
+}
+
 .action-buttons {
-    display: inline-flex;
+    width: 100%;
+    display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     gap: var(--spacing-xs);
+}
+
+.action-buttons .btn-icon {
+    flex: 0 0 32px;
+}
+
+.action-buttons .btn-icon svg {
+    display: block;
 }
 
 /* ------------------------------------------------------------

@@ -14,11 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentKeyword = '';
     let editingId = null;
 
-
     let currentPage = 0;
     const numberSize = 5;
     
-
     function openModal(mode = 'create', dept = null) {
 
     const form = document.getElementById('departmentForm'); //Thẻ from
@@ -37,8 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
         title.textContent = 'Thêm Khoa mới';
         form.reset();
     }
-
-
 
         modal.classList.remove('hidden');
     }
@@ -128,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 });
 
-    function loadDepartments(page = 0, status = "active", keyword = ''){
+    async function loadDepartments(page = 0, status = "active", keyword = ''){
         try {
             currentKeyword = keyword;
             const query = keyword ? `&keyword=${encodeURIComponent(keyword)}` : '';
