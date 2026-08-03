@@ -27,7 +27,7 @@ const classTableBody = document.getElementById('classTableBody');
 
 const containButton = document.querySelector('.action-buttons');
 
-let editingRow = null;   // giữ tham chiếu tới <tr> đang sửa, null nếu đang ở chế độ Thêm mới
+let editingId = null;   // giữ tham chiếu tới <tr> đang sửa, null nếu đang ở chế độ Thêm mới
 
 
 
@@ -47,11 +47,27 @@ function closeModal() {
     editingRow = null;
 }
 
-function updateRowStatus(row, status) {
-    row.dataset.status = status;
-    renderRowStatus(row);
-    applyClassFilters();
+function openEditModel(button){
+
+    const row = button.closest('tr');
+    editingRow = row.getAttribute('classId');
+
+    modalTitle.textContent = 'Sửa Lớp hành chính';
+
+    inputCode.value = row.children[0].textContent.trim();
+    inputName.value = row.children[1].textContent.trim();
+    inputYear.value = row.children[5].textContent.trim();
+
+
+    const resDepartment = await apiFetch(`/department/${editingId}`);
+    const department = resDepartment.data;
+
+    inputDepartment
+
+
+    modal.classList.remove('hidden');
 }
+
 
 btnAdd.addEventListener('click', openAddModal);
 btnClose.addEventListener('click', closeModal);
@@ -115,6 +131,13 @@ async function renderAdvisorDropdown(keyword = '', departmentId = '') {
     advisorDropdown.classList.remove('hidden');
 }
 
+inputAdvisor.addEventListener('focus', () => renderAdvisorDropdown(inputAdvisor.value, document.getElementById('classDepartment').value));
+inputAdvisor.addEventListener('click', () => renderAdvisorDropdown(inputAdvisor.value, document.getElementById('classDepartment').value));
+inputAdvisor.addEventListener('input', () => renderAdvisorDropdown(inputAdvisor.value, document.getElementById('classDepartment').value));
+inputAdvisor.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') hideAdvisorDropdown();
+});
+
 
 // -------------ĐỔ DỮ LIỆU VÀO DROPDOWN DEPARTMENT-------------------------
 
@@ -130,12 +153,6 @@ function populate(selectElement, departments, placeholderText){
 
 }
 
-inputAdvisor.addEventListener('focus', () => renderAdvisorDropdown(inputAdvisor.value, document.getElementById('classDepartment').value));
-inputAdvisor.addEventListener('click', () => renderAdvisorDropdown(inputAdvisor.value, document.getElementById('classDepartment').value));
-inputAdvisor.addEventListener('input', () => renderAdvisorDropdown(inputAdvisor.value, document.getElementById('classDepartment').value));
-inputAdvisor.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') hideAdvisorDropdown();
-});
 
 document.addEventListener('click', (event) => {
     if (!event.target.closest('.advisor-input-wrap')) {
@@ -149,7 +166,33 @@ document.addEventListener('click', (event) => {
     populate(document.getElementById('filterDepartment'), departments, 'Tất cả khoa');
     populate(document.getElementById('classDepartment'), departments, 'Chọn khoa quản lí')
 
-//----------------------------------------Lưu lớp mới------------------
+
+//-------------------Load all năm---------
+
+async function loadEnrollmentYear(){
+    try {
+        const res = await apiFetch('/classes/enrollment-years');
+        const data = res.data
+        
+        filterYear.innerHTML = ' <option value="">Tất cả năm</option>';
+
+        data.forEach(yearItem => {
+            const optionTag = document.createElement('option');
+            optionTag.textContent = yearItem
+            optionTag.value = yearItem
+           
+            filterYear.appendChild(optionTag)
+        })
+
+
+    }
+    catch(e){
+        console.log(e.message)
+    }
+}
+
+await loadEnrollmentYear()
+//----------------------------------------Lưu lớp mới--------------------
 
 btnSave.addEventListener('click', async () => {
     const inputCodeData = inputCode.value;
@@ -185,7 +228,7 @@ btnSave.addEventListener('click', async () => {
 
 async function loadAllClass(keyword = '', enrollmentYear = '', status = '', idDepartment =''){
 
-const resAllClass = await getAllClass(keyword = '', enrollmentYear = '', status = '', idDepartment ='');
+const resAllClass = await getAllClass(keyword, enrollmentYear, status, idDepartment);
 
 const allClass = resAllClass.data.content;
 
@@ -202,7 +245,7 @@ allClass.forEach((classItem) => {
         row.innerHTML = `
                     <td><strong>${classItem.classCode}</strong></td>
                             <td class="text-primary-color">${classItem.name}</td>
-                            <td><span class="badge badge-info">${classItem.departmentCode}</span></td>
+                            <td><span class="badge badge-info" data-departmentid = ${classItem.departmentId}>${classItem.departmentCode}</span></td>
                             <td>
                                 <div class="advisor-cell">
                                     <img class="avatar avatar-sm" src="https://i.pravatar.cc/64?img=33" alt="">
@@ -219,7 +262,7 @@ allClass.forEach((classItem) => {
                                     <button class="btn-icon" title="Sửa" onclick="openEditModal(this)">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path></svg>
                                     </button>
-                                    <button class="btn-icon danger" title="Xóa"  data-id = ${classItem.id}>
+                                    <button class="btn-icon danger" title="Xóa"  data-id = ${classItem.id} data-name = ${classItem.name}>
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                                     </button>
                                 </div>
@@ -229,7 +272,7 @@ allClass.forEach((classItem) => {
         row.innerHTML = `
          <td><strong>${classItem.classCode}</strong></td>
                             <td class="text-primary-color">${classItem.name}</td>
-                            <td><span class="badge badge-warning">${classItem.departmentCode}</span></td>
+                            <td><span class="badge badge-warning" data-departmentid = ${classItem.departmentId}>${classItem.departmentCode}</span></td>
                             <td>
                                 <div class="advisor-cell">
                                     <img class="avatar avatar-sm" src="https://i.pravatar.cc/64?img=52" alt="">
@@ -246,7 +289,7 @@ allClass.forEach((classItem) => {
                                     <button class="btn-icon" title="Sửa" onclick="openEditModal(this)">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path></svg>
                                     </button>
-                                    <button class="btn-icon restore" title="Khôi phục" data-id = ${classItem.id} >
+                                    <button class="btn-icon restore" title="Khôi phục" data-id = ${classItem.id} data-name = ${classItem.name} >
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"></path><polyline points="3 3 3 9 9 9"></polyline></svg>
                                     </button>
                                 </div>
@@ -257,30 +300,69 @@ allClass.forEach((classItem) => {
 })
 }
 
+
 loadAllClass()
 
 //-----------------Thêm hành động vào nút xóa, khôi phục, cập nhật
-//Nút xóa
-document.querySelector('.table tbody').addEventListener('click', (e) => {
+document.querySelector('.table tbody').addEventListener('click', async (e) => {
 
-    const btn = e.target.closest('.btn-icon.danger')
+    const deleteBtn = e.target.closest('.btn-icon.danger');
+    const restoreBtn = e.target.closest('.btn-icon.restore');
 
-    console.log(btn);
-    if (!confirm('Bạn có chắc muốn xóa khoa này?')) return;
+    // Không bấm đúng nút Xóa/Khôi phục nào cả
+    if (!deleteBtn && !restoreBtn) return;
 
-    console.log(btn.dataset.id)
+    if (deleteBtn) {
+      
 
-    apiFetch(`/classes/${btn.dataset.id}`, 'DELETE')
-    
-    loadAllClass()
+        if (!confirm(`Bạn có chắc muốn xóa lớp "${deleteBtn.dataset.name}"?`)) return;
+
+        deleteBtn.disabled = true;   
+
+        try {
+            await apiFetch(`/classes/${deleteBtn.dataset.id}`, 'DELETE');
+            await loadAllClass();
+        } catch (err) {
+            alert(err.message);  
+        } finally {
+            deleteBtn.disabled = false;
+        }
+        return;
+    }
+
+    if (restoreBtn) {
+       
+
+        if (!confirm(`Bạn có chắc chắn muốn khôi phục lớp "${restoreBtn.dataset.name}"?`)) return;
+
+        restoreBtn.disabled = true;
+
+        try {
+            await apiFetch(`/classes/${restoreBtn.dataset.id}`, 'PATCH');
+            await loadAllClass();
+        } catch (err) {
+            alert(err.message);
+        } finally {
+            restoreBtn.disabled = false;
+        }
+    }
+});
+
+
+//-----------------------------------Lọc lớp theo các điều kiện
+
+filterDepartment.addEventListener('change', (e) => {
+    loadAllClass(searchInput.value, filterYear.value, filterStatus.value, filterDepartment.value)
 })
-//Nút khôi phục
-document.querySelector('.table tbody').addEventListener('click', (e) => {
-    const btn = e.target.closest('.btn-icon.restore')
-    if (!confirm('Bạn có chắc chắn muốn khôi phục lớp này?')) return;
-
-    apiFetch(`/classes/${btn.dataset.id}`, 'PATCH');
-
-    loadAllClass();
+filterStatus.addEventListener('change', (e) => {
+    loadAllClass(searchInput.value, filterYear.value, filterStatus.value, filterDepartment.value)
 })
+searchInput.addEventListener('input', (e) => {
+    loadAllClass(searchInput.value, filterYear.value, filterStatus.value, filterDepartment.value)
+})
+
+filterYear.addEventListener('change', (e) => {
+    loadAllClass(searchInput.value, filterYear.value, filterStatus.value, filterDepartment.value)
+})
+
 })
