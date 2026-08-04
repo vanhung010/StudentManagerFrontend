@@ -163,6 +163,17 @@
     color: var(--text-muted);
 }
 
+
+/* ------------------------------------------------------------
+   Dấu "..." trong phân trang rút gọn — chỉ hiện vài trang quanh
+   trang hiện tại, không liệt kê hết toàn bộ số trang
+   ------------------------------------------------------------ */
+.pagination-ellipsis {
+    padding: 0 var(--spacing-xs);
+    color: var(--text-muted);
+    user-select: none;
+}
+
 /* ------------------------------------------------------------
    6. RESPONSIVE — filter dồn xuống 1 cột trên màn hình nhỏ
    ------------------------------------------------------------ */

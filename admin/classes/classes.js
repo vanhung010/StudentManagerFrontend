@@ -27,9 +27,9 @@ const classTableBody = document.getElementById('classTableBody');
 
 const containButton = document.querySelector('.action-buttons');
 
-let editingId = null;   // giữ tham chiếu tới <tr> đang sửa, null nếu đang ở chế độ Thêm mới
-
-
+let editingId = null;
+let currentPage = 0;
+const pageSize = 5;
 
 
 // ---------------- MỞ / ĐÓNG MODAL ----------------
@@ -44,26 +44,47 @@ function openAddModal() {
 function closeModal() {
     modal.classList.add('hidden');
     classForm.reset();
-    editingRow = null;
+    editingId = null;
+
+    inputCode.disabled = false;
+    inputName.disabled = false;
+    inputDepartment.disabled = false;
+    inputYear.disabled = false;
 }
 
-function openEditModel(button){
+async function openEditModal(button){
 
     const row = button.closest('tr');
-    editingRow = row.getAttribute('classId');
+    editingId = row.getAttribute('classId');
 
-    modalTitle.textContent = 'Sửa Lớp hành chính';
+    modalTitle.textContent = 'Đổi cố vấn lớp';
 
     inputCode.value = row.children[0].textContent.trim();
     inputName.value = row.children[1].textContent.trim();
     inputYear.value = row.children[5].textContent.trim();
 
 
-    const resDepartment = await apiFetch(`/department/${editingId}`);
-    const department = resDepartment.data;
+   const departmentId = row.children[2].dataset.departmentid;
+   
+   console.log(departmentId)
+   const resDepartment = await apiFetch(`/departments/${departmentId}`)
+   const department = resDepartment.data
 
-    inputDepartment
+   console.log(department)
 
+    inputDepartment.innerHTML = `<option value=${departmentId}>${department.name}</option>`
+
+    inputDepartment.disabled = true; //không cho chọn
+    inputCode.disabled = true;
+    inputName.disabled = true;
+    inputYear.disabled = true;
+
+    
+    const currentAdvisorName = row.children[3].querySelector('span').textContent.trim();
+    const currentAdvisorId = row.children[3].dataset.advisorid;
+
+    inputAdvisor.value = currentAdvisorName;
+    inputAdvisor.setAttribute('id-advisor', currentAdvisorId);
 
     modal.classList.remove('hidden');
 }
@@ -195,10 +216,29 @@ await loadEnrollmentYear()
 //----------------------------------------Lưu lớp mới--------------------
 
 btnSave.addEventListener('click', async () => {
+   const advisorId = inputAdvisor.getAttribute('id-advisor')
+   if(editingId){
+    try{
+    await apiFetch(`/classes/${editingId}/advivor?advisorId=${advisorId}`, 'PUT')
+    btnSave.disabled = true;
+    btnSave.textContent = 'Đang lưu';
+    closeModal();}
+   
+   catch(err){
+    alert(err.message)
+   }
+   finally{
+      btnSave.disabled = false;
+    btnSave.textContent = 'Lưu';
+    loadAllClass(searchInput.value, filterYear.value, filterStatus.value, filterDepartment.value, currentPage)
+   }
+}
+
+   else {
     const inputCodeData = inputCode.value;
     const inputNameData = inputName.value;
     const departmentId = inputDepartment.value;
-    const advisorId = inputAdvisor.getAttribute('id-advisor')
+    
     const inputYearData = inputYear.value;
 
         btnSave.disabled = true;
@@ -221,16 +261,20 @@ btnSave.addEventListener('click', async () => {
         btnSave.disabled = false;
         btnSave.textContent = 'Lưu';
     }
+}
 })
 
 
 //--------------Load lớp ------------------
 
-async function loadAllClass(keyword = '', enrollmentYear = '', status = '', idDepartment =''){
+async function loadAllClass(keyword = '', enrollmentYear = '', status = '', idDepartment = '', page = 0){
 
-const resAllClass = await getAllClass(keyword, enrollmentYear, status, idDepartment);
+const resAllClass = await getAllClass(keyword, enrollmentYear, status, idDepartment, page, pageSize);
 
-const allClass = resAllClass.data.content;
+const pageData = resAllClass.data;
+const allClass = pageData.content;
+
+currentPage = pageData.currentPage;
 
  classTableBody.innerHTML ='';
 
@@ -245,7 +289,7 @@ allClass.forEach((classItem) => {
         row.innerHTML = `
                     <td><strong>${classItem.classCode}</strong></td>
                             <td class="text-primary-color">${classItem.name}</td>
-                            <td><span class="badge badge-info" data-departmentid = ${classItem.departmentId}>${classItem.departmentCode}</span></td>
+                            <td data-departmentid = ${classItem.departmentId}><span class="badge badge-info" > ${classItem.departmentCode}</span></td>
                             <td>
                                 <div class="advisor-cell">
                                     <img class="avatar avatar-sm" src="https://i.pravatar.cc/64?img=33" alt="">
@@ -259,7 +303,7 @@ allClass.forEach((classItem) => {
                             <td class="status-cell"><span class="badge badge-success status-badge">Đang hoạt động</span></td>
                             <td class="col-actions">
                                 <div class="action-buttons">
-                                    <button class="btn-icon" title="Sửa" onclick="openEditModal(this)">
+                                    <button class="btn-icon update" title="Sửa">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path></svg>
                                     </button>
                                     <button class="btn-icon danger" title="Xóa"  data-id = ${classItem.id} data-name = ${classItem.name}>
@@ -298,6 +342,72 @@ allClass.forEach((classItem) => {
 
    classTableBody.appendChild(row)
 })
+
+renderPagination(pageData.currentPage, pageData.totalPages, pageData.totalElements, pageData.pageSize, keyword, enrollmentYear, status, idDepartment);
+}
+
+
+
+function renderPagination(page, totalPages, totalElements, size, keyword, enrollmentYear, status, idDepartment) {
+
+    const from = totalElements === 0 ? 0 : page * size + 1;
+    const to = Math.min((page + 1) * size, totalElements);
+
+    document.querySelector('.pagination span').textContent =
+        `Hiển thị ${from}-${to} trong ${totalElements} mục`;
+
+    const control = document.querySelector('.pagination-controls');
+    control.innerHTML = '';
+
+    const goToPage = (targetPage) =>
+        loadAllClass(keyword, enrollmentYear, status, idDepartment, targetPage);
+
+    // Nút "Trước"
+    const btnPrev = document.createElement('button');
+    btnPrev.textContent = 'Trước';
+    btnPrev.disabled = page === 0;
+    btnPrev.addEventListener('click', () => goToPage(page - 1));
+    control.appendChild(btnPrev);
+
+    // Tính danh sách số trang cần hiện: luôn có trang đầu + trang cuối,
+    // cộng thêm 1 trang liền trước và 1 trang liền sau trang hiện tại.
+    // Khoảng trống giữa các số không liền kề nhau sẽ hiện dấu "..."
+    const pagesToShow = new Set();
+    pagesToShow.add(0);                    // trang đầu tiên
+    pagesToShow.add(totalPages - 1);       // trang cuối cùng
+    pagesToShow.add(page);                 // trang hiện tại
+    if (page - 1 >= 0) pagesToShow.add(page - 1);
+    if (page + 1 <= totalPages - 1) pagesToShow.add(page + 1);
+
+    const sortedPages = Array.from(pagesToShow)
+            .filter(p => p >= 0 && p < totalPages)
+            .sort((a, b) => a - b);
+
+    let previousPage = null;
+    sortedPages.forEach((p) => {
+        // Nếu có khoảng cách > 1 so với số trang liền trước → chèn dấu "..."
+        if (previousPage !== null && p - previousPage > 1) {
+            const ellipsis = document.createElement('span');
+            ellipsis.className = 'pagination-ellipsis';
+            ellipsis.textContent = '...';
+            control.appendChild(ellipsis);
+        }
+
+        const btnPage = document.createElement('button');
+        btnPage.textContent = p + 1;
+        if (p === page) btnPage.classList.add('active');
+        btnPage.addEventListener('click', () => goToPage(p));
+        control.appendChild(btnPage);
+
+        previousPage = p;
+    });
+
+    // Nút "Tiếp"
+    const btnNext = document.createElement('button');
+    btnNext.textContent = 'Tiếp';
+    btnNext.disabled = page >= totalPages - 1;
+    btnNext.addEventListener('click', () => goToPage(page + 1));
+    control.appendChild(btnNext);
 }
 
 
@@ -308,9 +418,10 @@ document.querySelector('.table tbody').addEventListener('click', async (e) => {
 
     const deleteBtn = e.target.closest('.btn-icon.danger');
     const restoreBtn = e.target.closest('.btn-icon.restore');
+    const updateBtn = e.target.closest('.btn-icon.update')
 
     // Không bấm đúng nút Xóa/Khôi phục nào cả
-    if (!deleteBtn && !restoreBtn) return;
+    if (!deleteBtn && !restoreBtn && !updateBtn) return;
 
     if (deleteBtn) {
       
@@ -321,7 +432,7 @@ document.querySelector('.table tbody').addEventListener('click', async (e) => {
 
         try {
             await apiFetch(`/classes/${deleteBtn.dataset.id}`, 'DELETE');
-            await loadAllClass();
+            await loadAllClass(searchInput.value, filterYear.value, filterStatus.value, filterDepartment.value, currentPage);
         } catch (err) {
             alert(err.message);  
         } finally {
@@ -339,12 +450,17 @@ document.querySelector('.table tbody').addEventListener('click', async (e) => {
 
         try {
             await apiFetch(`/classes/${restoreBtn.dataset.id}`, 'PATCH');
-            await loadAllClass();
+            await loadAllClass(searchInput.value, filterYear.value, filterStatus.value, filterDepartment.value, currentPage);
+            return
         } catch (err) {
             alert(err.message);
         } finally {
             restoreBtn.disabled = false;
         }
+    }
+
+    if(updateBtn){
+        openEditModal(updateBtn)
     }
 });
 
@@ -352,17 +468,17 @@ document.querySelector('.table tbody').addEventListener('click', async (e) => {
 //-----------------------------------Lọc lớp theo các điều kiện
 
 filterDepartment.addEventListener('change', (e) => {
-    loadAllClass(searchInput.value, filterYear.value, filterStatus.value, filterDepartment.value)
+    loadAllClass(searchInput.value, filterYear.value, filterStatus.value, filterDepartment.value, 0)
 })
 filterStatus.addEventListener('change', (e) => {
-    loadAllClass(searchInput.value, filterYear.value, filterStatus.value, filterDepartment.value)
+    loadAllClass(searchInput.value, filterYear.value, filterStatus.value, filterDepartment.value, 0)
 })
 searchInput.addEventListener('input', (e) => {
-    loadAllClass(searchInput.value, filterYear.value, filterStatus.value, filterDepartment.value)
+    loadAllClass(searchInput.value, filterYear.value, filterStatus.value, filterDepartment.value, 0)
 })
 
 filterYear.addEventListener('change', (e) => {
-    loadAllClass(searchInput.value, filterYear.value, filterStatus.value, filterDepartment.value)
+    loadAllClass(searchInput.value, filterYear.value, filterStatus.value, filterDepartment.value, 0)
 })
 
 })

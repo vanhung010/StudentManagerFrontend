@@ -1,4 +1,4 @@
-function getAllClass(keyword = '', enrollmentYear = '', status = '', idDepartment =''){
+function getAllClass(keyword = '', enrollmentYear = '', status = '', idDepartment ='', page = 0, size = 8){
 
     const param = new URLSearchParams();
 
@@ -6,6 +6,8 @@ function getAllClass(keyword = '', enrollmentYear = '', status = '', idDepartmen
     if(enrollmentYear) param.append('enrollmentYear', enrollmentYear);
     if(status) param.append('status', status);
     if(idDepartment) param.append('idDepartment', idDepartment);
+    param.append('page', page);
+    param.append('size', size);
 
     const query = param.toString()
 
