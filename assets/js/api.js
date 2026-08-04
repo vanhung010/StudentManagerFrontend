@@ -16,8 +16,11 @@ async function apiFetch(endpoint, method = 'GET', body = null) {
     if (body) options.body = JSON.stringify(body);
 
     const res = await fetch(`${BASE_URL}${endpoint}`, options);
+   
     const data = await res.json();
 
+    
+    
     if (!res.ok) {
         throw new Error(data.message || 'Có lỗi xảy ra');
     }
