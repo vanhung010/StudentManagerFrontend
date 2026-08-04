@@ -1,0 +1,170 @@
+/* ============================================================
+   STUDENTS.CSS
+   Style riêng cho trang Quản lý Sinh viên: hàng filter, ô hiển thị
+   avatar+tên trong bảng (dùng chung .advisor-cell của classes.css),
+   form 2 cột trong modal Thêm Sinh viên, và modal báo lỗi riêng.
+   Load sau base.css, layout.css, components.css
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. HÀNG BỘ LỌC — Tìm kiếm (rộng hơn) + Khoa + Lớp + Năm nhập học
+   ------------------------------------------------------------ */
+.filter-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 2fr;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.filter-item {
+    margin-bottom: 0;
+}
+
+.filter-item-search {
+    order: 4;
+}
+
+.search-box-full {
+    width: 100%;
+}
+
+@media (max-width: 900px) {
+    .filter-row {
+        grid-template-columns: 1fr 1fr;
+    }
+    .filter-item-search {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 560px) {
+    .filter-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ------------------------------------------------------------
+   2. Ô "HỌ TÊN" trong bảng — avatar + tên cùng hàng
+   (đặt tên .advisor-cell để tái dùng đúng style đã có ở classes.css
+   nếu 2 file cùng load; khai báo lại ở đây để students.css độc lập)
+   ------------------------------------------------------------ */
+.advisor-cell {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.advisor-cell span {
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.col-actions {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.col-actions .btn-icon {
+    margin-left: var(--spacing-xs);
+}
+
+/* ------------------------------------------------------------
+   3. MODAL THÊM SINH VIÊN — phụ đề + form chia 2 cột
+   ------------------------------------------------------------ */
+.modal-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-lg);
+}
+
+.form-row-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+}
+
+.form-column .modal-section-title {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Input mật khẩu có icon con mắt — dùng lại pattern từ login.css */
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.toggle-password {
+    position: absolute;
+    right: var(--spacing-md);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+}
+
+.toggle-password:hover {
+    color: var(--text-secondary);
+}
+
+@media (max-width: 700px) {
+    .form-row-2col {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ------------------------------------------------------------
+   4. MODAL BÁO LỖI — nhỏ gọn, canh giữa, có icon cảnh báo
+   ------------------------------------------------------------ */
+.modal-error {
+    max-width: 360px;
+}
+
+.error-modal-body {
+    text-align: center;
+    padding-top: var(--spacing-xl);
+}
+
+.error-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--spacing-md);
+}
+
+.error-modal-body h3 {
+    margin-bottom: var(--spacing-sm);
+}
+
+.error-modal-body p {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.error-modal-footer {
+    justify-content: center;
+}
+
+.error-modal-footer .btn {
+    min-width: 120px;
+}
+
+/* ------------------------------------------------------------
+   5. PHÂN TRANG — dấu "..." (giống pattern đã dùng ở classes.css)
+   ------------------------------------------------------------ */
+.pagination-ellipsis {
+    padding: 0 var(--spacing-xs);
+    color: var(--text-muted);
+    user-select: none;
+}
