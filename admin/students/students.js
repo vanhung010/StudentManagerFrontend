@@ -67,8 +67,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 //----------------Điền dữ liệu vào các thẻ select---------------
 
-
 function populateSelect(elementSelect, dataItem, valueKey, labelKey, placeHolder) {
+  
     elementSelect.innerHTML = `<option value = ${''}>${placeHolder}</option>`
     dataItem.forEach(item => {
         const elementOption = document.createElement('option');
@@ -106,9 +106,10 @@ inputDepartment.addEventListener('change', async () => {
 
     if(!departmentId) {
         populateSelect(inputClass, [], 'id', 'name', 'Chọn lớp')
+        return;
     }
 
-const resClass = await getAllClass('', inputYear.value, 'active', departmentId, 0, 100000)
+const resClass = await getAllClass('', '', 'active', departmentId, 0, 100000)
 const allClass = resClass.data.content;
 
 
@@ -121,16 +122,47 @@ inputClass.addEventListener('change', async () => {
 
     if(!classId) return;
 
-    const resDepartment = await getAllDepartments('active', '', 0, 10000, classId)
-    const departmentData = resDepartment.data.content;
 
-    console.log(departmentData)
-    if (!departmentData.length) return; 
+    const resClass = await getClass(inputClass.value)
+    const classData = resClass.data;
+
+   
+    if (!classData) return; 
 
      isSyncing = true; //Chặn lại không đổi khoa 
 
-    populateSelect(inputDepartment, departmentData, 'id', 'name', 'Chọn khoa')
-
+     inputDepartment.value = classData.departmentId; 
      isSyncing = false;
+
+     //Load năm 
+     inputYear.value = classData.enrollmentYear
+     inputYear.readOnly = true
+})
+
+//---------------Lưu học sinh-----------------
+btnSave.addEventListener('click', async () => {
+    try {
+
+        btnSave.disabled = true;
+        btnSave.textContent = 'Đang lưu'
+    await createStudent({
+        studentCode: inputCode.value,
+        fullName: inputFullName.value,
+        dob: inputDob.value,
+        gender: inputGender.value,
+        email: inputEmail.value,
+        phone: inputPhone.value,
+        departmentId: inputDepartment.value,
+        classId: inputClass.value,
+        enrollmentYear: inputYear.value,
+        username: inputUsername.value,
+        password: inputPassword.value
+    })
+     btnSave.disabled = false;
+     closeModal()
+}
+catch(err){
+    showError(err.message)
+}
 })
 });

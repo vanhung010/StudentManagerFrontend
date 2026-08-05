@@ -15,3 +15,7 @@ function getAllClass(keyword = '', enrollmentYear = '', status = '', idDepartmen
 
 
 }
+
+function getClass(id){
+    return apiFetch(`/classes/${id}`)
+}
