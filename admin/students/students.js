@@ -96,17 +96,41 @@ catch(err){
     showError(err.message)
 }
 //thay đổi khoa load những lớp thuộc khoa đó
+
+let isSyncing = false;
+//Chọn khoa -> Load lớp của khoa đó
 inputDepartment.addEventListener('change', async () => {
-    if(!inputClass.value){
-const resClass = await getAllClass('', inputYear.value, 'active', inputDepartment.value, page = 0, size = 8)
+    if(isSyncing) return ;
+
+    const departmentId = inputDepartment.value;
+
+    if(!departmentId) {
+        populateSelect(inputClass, [], 'id', 'name', 'Chọn lớp')
+    }
+
+const resClass = await getAllClass('', inputYear.value, 'active', departmentId, 0, 100000)
 const allClass = resClass.data.content;
-populateSelect(inputClass, allClass, 'id', 'name', 'Chọn lớp')}
+
+
+populateSelect(inputClass, allClass, 'id', 'name', 'Chọn lớp')
 })
 //Chọn lớp, load khoa của lớp đó
 inputClass.addEventListener('change', async () => {
-    if(!inputDepartment){
-    const resDepartment = await getAllDepartments('active', '', 0, size = 10000, inputClass.value)
+    
+    const classId = inputClass.value;
+
+    if(!classId) return;
+
+    const resDepartment = await getAllDepartments('active', '', 0, 10000, classId)
     const departmentData = resDepartment.data.content;
-    populateSelect(inputDepartment, departmentData, 'id', 'name', 'Chọn khoa')}
+
+    console.log(departmentData)
+    if (!departmentData.length) return; 
+
+     isSyncing = true; //Chặn lại không đổi khoa 
+
+    populateSelect(inputDepartment, departmentData, 'id', 'name', 'Chọn khoa')
+
+     isSyncing = false;
 })
 });
