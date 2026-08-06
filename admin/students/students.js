@@ -165,4 +165,60 @@ catch(err){
     showError(err.message)
 }
 })
+//-------------Load data-----------------
+function gpaClass(gpa){
+     if (gpa === null || gpa === undefined) return 'badge-neutral';
+    if (gpa >= 3.2) return 'badge-success';
+    if (gpa >= 2.5) return 'badge-warning';
+    return 'badge-danger';
+}
+function renderTable(students){
+ studentTableBody.innerHTML = '';
+
+    if (!students.length) {
+        studentTableBody.innerHTML = `<tr><td colspan="7" class="table-empty">Không có sinh viên nào</td></tr>`;
+        return;
+    }
+    students.forEach(student => {
+        const row = document.createElement('tr');
+        const gpaValue = student.gpa !== null && student.gpa !== undefined ? student.gpa : '-';
+
+        row.innerHTML = `
+            <td>
+                <div class="advisor-cell">
+                    <img class="avatar avatar-sm" src="https://i.pravatar.cc/64?u=${student.id}" alt="">
+                    <span>${student.fullName}</span>
+                </div>
+            </td>
+            <td>${student.studentCode}</td>
+            <td>${student.classes ? student.classes.classCode : '-'}</td>
+            <td class="text-primary-color">${student.department ? student.department.name : '-'}</td>
+            <td>${student.email}</td>
+            <td><span class="badge ${gpaClass(student.gpa)}">${gpaValue}</span></td>
+            <td class="col-actions">
+                <button class="btn-icon" title="Xem chi tiết" onclick="location.href='detail.html?id=${student.id}'">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+            </td>
+        `;
+        studentTableBody.appendChild(row);
+    });
+
+}
+
+function renderPagination(page, totalPages, totalElements, size){
+    const from = totalElements === 0 ? 0 : page * size + 1;
+    const to = Math.min((page + 1) * size, totalElements);
+
+    document.querySelector('.pagination span').textContent =
+        `Hiển thị ${from}-${to} trong số ${totalElements} sinh viên`;
+
+    //Thanh điều khiển
+    const control = document.querySelector('.pagination-controls');
+    control.innerHTML = '';
+
+}
+
+// async function loadAllClass()
+
 });
