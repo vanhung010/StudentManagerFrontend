@@ -22,6 +22,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const filterDepartment = document.getElementById('filterDepartment');
     const searchInput = document.getElementById('searchInput');
+    const filterEnrollemnt = document.getElementById('filterYear')
+    const filterStatus = document.getElementById('filterStatus');
     const studentTableBody = document.getElementById('studentTableBody');
 
     const errorModal = document.getElementById('errorModal');
@@ -206,7 +208,7 @@ function renderTable(students){
 
 }
 
-function renderPagination(page, totalPages, totalElements, size){
+function renderPagination(page, totalPages, totalElements, size = 10){
     const from = totalElements === 0 ? 0 : page * size + 1;
     const to = Math.min((page + 1) * size, totalElements);
 
@@ -217,8 +219,67 @@ function renderPagination(page, totalPages, totalElements, size){
     const control = document.querySelector('.pagination-controls');
     control.innerHTML = '';
 
+    const gotoPage = (pageTarget) => {
+        loadAllStudent(searchInput.value, filterDepartment.value, filterEnrollemnt.value, filterStatus.value, pageTarget)
+    }
+
+    //Nút trước
+    const btnPrev = document.createElement('button');
+    btnPrev.textContent = 'Trước'
+    btnPrev.disabled = page === 0;
+    btnPrev.addEventListener('click',() =>  gotoPage(page-1));
+    control.appendChild(btnPrev);
+
+    //Hiện trang đầu, cuối, trang hiện tại, trang liền trước, liền sau
+    const pageToShow = new Set([0, totalPages - 1, page]);
+    if(page-1 >= 0) pageToShow.add(page-1);
+    if(page+1 <= totalPages - 1) pageToShow.add(page+1);
+
+    const sortPage = Array.from(pageToShow)
+                            .filter(p >= 0 & p < totalPage)
+                            .sort((a,b) => a-b);
+    
+    let previousPage = null;
+    sortPage.forEach((p) => {
+         if (previousPage !== null && p - previousPage > 1) {
+            const ellipsis = document.createElement('span');
+            ellipsis.className = 'pagination-ellipsis';
+            ellipsis.textContent = '...';
+            control.appendChild(ellipsis);
+         }
+         const btnPage = document.createElement('button');
+        btnPage.textContent = p + 1;         
+        if (p === page) btnPage.classList.add('active');
+        btnPage.addEventListener('click', () => goToPage(p));   
+        control.appendChild(btnPage);
+
+        previousPage = p;
+
+    })
+
+    const btnNext = document.createElement('button');
+    btnNext.textContent = '›';
+    btnNext.disabled = page >= totalPages - 1;
+    btnNext.addEventListener('click', () => goToPage(page + 1));
+    control.appendChild(btnNext);
+            
 }
 
-// async function loadAllClass()
+async function loadAllStudent(name = '', departmentId = '', enrollmentYear = '', status = 'active', page = 0, size = 10){
+    try {
+        const res = await getAllStudent(name, departmentId, enrollmentYear, status,  page, size);
+        const pageData = res.data;
+        currentPage = pageData.currentPage;
+
+        renderTable(pageData.content);
+        renderPagination(currentPage, pageData.totalPages, pageData.totalElements)
+    }
+    catch(err){
+        showError(err.message)
+    }
+}
+
+
+loadAllStudent()
 
 });

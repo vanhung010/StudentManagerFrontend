@@ -3,11 +3,13 @@
 // không đụng DOM. Khớp đúng tham số StudentController hiện có:
 // GET /students?page&size&name&departmentId
 
-function getAllStudent(name = '', departmentId = '', page = 0, size = 10) {
+function getAllStudent(name = '', departmentId = '', enrollmentYear = '', status = 'active', page = 0, size = 10) {
     const param = new URLSearchParams();
 
     if (name) param.append('name', name);
     if (departmentId) param.append('departmentId', departmentId);
+    if(enrollmentYear) param.append('enrollmentYear', enrollmentYear);
+    if(status) param.append('status', status);
     param.append('page', page);
     param.append('size', size);
 
