@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const pageSize = 10;
 
     // ---------------- MODAL BÁO LỖI ----------------
-    // Dùng thay cho alert() — hiển thị lỗi trong modal riêng, đồng bộ giao diện
     function showError(message) {
         errorModalMessage.textContent = message || 'Có lỗi xảy ra, vui lòng thử lại.';
         errorModal.classList.remove('hidden');
@@ -106,6 +105,9 @@ inputDepartment.addEventListener('change', async () => {
 
     const departmentId = inputDepartment.value;
 
+     inputYear.value = '';
+    inputYear.readOnly = false;
+
     if(!departmentId) {
         populateSelect(inputClass, [], 'id', 'name', 'Chọn lớp')
         return;
@@ -162,6 +164,8 @@ btnSave.addEventListener('click', async () => {
     })
      btnSave.disabled = false;
      closeModal()
+      loadAllStudent(searchInput.value, filterDepartment.value, filterEnrollemnt.value, filterStatus.value, currentPage
+      )
 }
 catch(err){
     showError(err.message)
@@ -183,8 +187,38 @@ function renderTable(students){
     }
     students.forEach(student => {
         const row = document.createElement('tr');
-        const gpaValue = student.gpa !== null && student.gpa !== undefined ? student.gpa : '-';
+        row.dataset.id = student.id;
+        row.classList.add('clickable-row');
 
+        const gpaValue = student.gpa !== null && student.gpa !== undefined ? student.gpa : '-';
+        let statusHtml;
+        let iconHtml;
+        if(student.isDeleted){
+            statusHtml = ' <td><span class="badge badge-danger">Đã xóa</span></td>'
+            iconHtml = ` <td class="col-actions">
+                                <div class="action-buttons">
+                                    <button class="btn-icon" title="Sửa" onclick="openEditModal(this)">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path></svg>
+                                    </button>
+                                    <button class="btn-icon restore" title="Khôi phục" data-id = ${student.id} data-name = ${student.fullName}>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"></path><polyline points="3 3 3 9 9 9"></polyline></svg>
+                                    </button>
+                                </div>
+                            </td>`
+        }
+        else {
+             statusHtml = '<td><span class="badge badge-success">Đang hoạt động</span></td>'
+             iconHtml = `<td class="col-actions">
+                                <div class="action-buttons">
+                                    <button class="btn-icon update" title="Sửa">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path></svg>
+                                    </button>
+                                    <button class="btn-icon danger" title="Xóa"  data-id = ${student.id} data-name = ${student.fullName} >
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                    </button>
+                                </div>
+                            </td>`
+        }
         row.innerHTML = `
             <td>
                 <div class="advisor-cell">
@@ -197,15 +231,11 @@ function renderTable(students){
             <td class="text-primary-color">${student.department ? student.department.name : '-'}</td>
             <td>${student.email}</td>
             <td><span class="badge ${gpaClass(student.gpa)}">${gpaValue}</span></td>
-            <td class="col-actions">
-                <button class="btn-icon" title="Xem chi tiết" onclick="location.href='detail.html?id=${student.id}'">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                </button>
-            </td>
+            ${statusHtml}
+            ${iconHtml}
         `;
         studentTableBody.appendChild(row);
     });
-
 }
 
 function renderPagination(page, totalPages, totalElements, size = 10){
@@ -225,7 +255,7 @@ function renderPagination(page, totalPages, totalElements, size = 10){
 
     //Nút trước
     const btnPrev = document.createElement('button');
-    btnPrev.textContent = 'Trước'
+    btnPrev.textContent = '<'
     btnPrev.disabled = page === 0;
     btnPrev.addEventListener('click',() =>  gotoPage(page-1));
     control.appendChild(btnPrev);
@@ -236,11 +266,11 @@ function renderPagination(page, totalPages, totalElements, size = 10){
     if(page+1 <= totalPages - 1) pageToShow.add(page+1);
 
     const sortPage = Array.from(pageToShow)
-                            .filter(p >= 0 & p < totalPage)
+                            .filter(p => p >= 0 & p < totalPages)
                             .sort((a,b) => a-b);
     
     let previousPage = null;
-    sortPage.forEach((p) => {
+    sortPage.forEach(p => {
          if (previousPage !== null && p - previousPage > 1) {
             const ellipsis = document.createElement('span');
             ellipsis.className = 'pagination-ellipsis';
@@ -279,7 +309,94 @@ async function loadAllStudent(name = '', departmentId = '', enrollmentYear = '',
     }
 }
 
-
 loadAllStudent()
+//---------------------------------Lọc-----------------
+//Khoa
+const resDepartment = await getAllDepartments('active', '', 0, 1000000, '');
+const resEnrollmentYear =  await getAllEnrollmentYear();
+
+const allDepartmentActive = resDepartment.data.content;
+const allEnrollmentYear = resEnrollmentYear.data.sort((a,b) => b-a)
+
+allDepartmentActive.forEach((p) => {
+    const elementOption = document.createElement('option');
+    elementOption.value = p.id;
+    elementOption.textContent = p.name;
+    filterDepartment.appendChild(elementOption);
+})
+allEnrollmentYear.forEach(p => {
+    const elementOption = document.createElement('option');
+    elementOption.value = p;
+    elementOption.textContent = p;
+    filterEnrollemnt.appendChild(elementOption)
+})
+filterDepartment.addEventListener('change', () => {
+    loadAllStudent(searchInput.value, filterDepartment.value, filterEnrollemnt.value, filterStatus.value, currentPage)
+})
+filterStatus.addEventListener('change', () => {
+    loadAllStudent(searchInput.value, filterDepartment.value, filterEnrollemnt.value, filterStatus.value, currentPage)
+})
+filterEnrollemnt.addEventListener('change', () => {
+    loadAllStudent(searchInput.value, filterDepartment.value, filterEnrollemnt.value, filterStatus.value, currentPage)
+})
+searchInput.addEventListener('input', () => {
+   
+     loadAllStudent(searchInput.value, filterDepartment.value, filterEnrollemnt.value, filterStatus.value, currentPage)
+})
+
+studentTableBody.addEventListener('click', async (e) => {
+
+    const deleteBtn = e.target.closest('.btn-icon.danger');
+    const restoreBtn = e.target.closest('.btn-icon.restore');
+    const updateBtn = e.target.closest('.btn-icon.update');
+    const row = e.target.closest('tr[data-id]');
+
+    // ---------------- XÓA ----------------
+    if (deleteBtn) {
+        if (!confirm(`Bạn có chắc muốn xóa sinh viên "${deleteBtn.dataset.name}"?`)) return;
+
+        deleteBtn.disabled = true;
+        try {
+            await apiFetch(`/students/${deleteBtn.dataset.id}`, 'DELETE');
+            await loadAllStudent(searchInput.value, filterDepartment.value, currentPage);
+        } catch (err) {
+            showError(err.message);
+        } finally {
+            deleteBtn.disabled = false;
+        }
+        return;   // dừng lại — KHÔNG cho rơi xuống điều hướng chi tiết
+    }
+
+    // ---------------- KHÔI PHỤC ----------------
+    if (restoreBtn) {
+        if (!confirm(`Bạn có chắc muốn khôi phục sinh viên "${restoreBtn.dataset.name}"?`)) return;
+
+        restoreBtn.disabled = true;
+        try {
+            await apiFetch(`/students/${restoreBtn.dataset.id}/restore`, 'PATCH');
+            await loadAllStudent(searchInput.value, filterDepartment.value, currentPage);
+        } catch (err) {
+            showError(err.message);
+        } finally {
+            restoreBtn.disabled = false;
+        }
+        return;
+    }
+
+    // ---------------- SỬA ----------------
+    if (updateBtn) {
+        openEditModal(updateBtn);
+        return;
+    }
+
+    // ---------------- KHÔNG BẤM TRÚNG NÚT NÀO — điều hướng sang trang chi tiết ----------------
+    if (row) {
+        location.href = `detail.html?id=${row.dataset.id}`;
+    }
+});
+
+
+//------------------------------Xóa-------------
+
 
 });

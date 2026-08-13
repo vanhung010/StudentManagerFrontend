@@ -26,3 +26,18 @@ async function apiFetch(endpoint, method = 'GET', body = null) {
     }
     return data;
 }
+
+function showToast(message, type = 'success') {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.textContent = message;
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.add('toast-hide');
+        setTimeout(() => toast.remove(), 250);   
+    }, 2500);   // hiện trong 2.5 giây
+}

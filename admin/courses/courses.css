@@ -1,0 +1,162 @@
+/* ============================================================
+   COURSES.CSS
+   Giao diện riêng cho module Quản lý Môn học.
+   THIẾT KẾ theo pattern các module Department / Class / Teacher:
+   - Sidebar tối dùng layout.css chung.
+   - Danh sách nằm trên cùng 1 trang.
+   - Form Thêm/Sửa dùng modal overlay, KHÔNG chuyển trang.
+   - Có filter trạng thái để hỗ trợ soft-delete / restore.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. FILTER BAR
+   ------------------------------------------------------------ */
+.course-filter-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.course-filter-item {
+    margin-bottom: 0;
+}
+
+/* Ô search cao bằng select để giống mockup Image 1 */
+.course-search-box {
+    width: 100%;
+}
+
+/* ------------------------------------------------------------
+   2. TABLE
+   ------------------------------------------------------------ */
+.course-code {
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+.course-name {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.course-credits {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+}
+
+.course-description {
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text-secondary);
+}
+
+.course-status-cell {
+    white-space: nowrap;
+}
+
+.row-deleted {
+    opacity: 0.7;
+}
+
+.row-deleted td:not(.col-actions) {
+    color: var(--text-muted);
+}
+
+/* ------------------------------------------------------------
+   3. ACTIONS
+   ------------------------------------------------------------ */
+.col-actions {
+    width: 110px;
+    min-width: 110px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+}
+
+.action-buttons .btn-icon {
+    flex: 0 0 32px;
+}
+
+.btn-icon.success:hover {
+    background-color: var(--color-success-bg);
+    color: var(--color-success);
+}
+
+/* ------------------------------------------------------------
+   4. MODAL FORM
+   ------------------------------------------------------------ */
+.course-modal .modal {
+    max-width: 680px;
+}
+
+.course-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 180px;
+    gap: var(--spacing-md);
+}
+
+.course-form-grid .full-width {
+    grid-column: 1 / -1;
+}
+
+.course-description-input {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.modal-help-text {
+    margin-top: var(--spacing-xs);
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+/* ------------------------------------------------------------
+   5. RESPONSIVE
+   ------------------------------------------------------------ */
+@media (max-width: 1000px) {
+    .course-filter-row {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .course-filter-item:first-child {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 700px) {
+    .course-filter-row,
+    .course-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .course-form-grid .full-width {
+        grid-column: auto;
+    }
+
+    .page-card {
+        overflow-x: auto;
+    }
+
+    .table {
+        min-width: 820px;
+    }
+}

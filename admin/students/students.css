@@ -168,3 +168,10 @@
     color: var(--text-muted);
     user-select: none;
 }
+.clickable-row {
+    cursor: pointer;
+}
+
+.clickable-row:hover {
+    background-color: var(--bg-body);
+}
