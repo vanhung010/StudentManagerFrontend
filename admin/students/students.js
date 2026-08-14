@@ -280,7 +280,7 @@ function renderPagination(page, totalPages, totalElements, size = 10){
          const btnPage = document.createElement('button');
         btnPage.textContent = p + 1;         
         if (p === page) btnPage.classList.add('active');
-        btnPage.addEventListener('click', () => goToPage(p));   
+        btnPage.addEventListener('click', () => gotoPage(p));   
         control.appendChild(btnPage);
 
         previousPage = p;
@@ -290,7 +290,7 @@ function renderPagination(page, totalPages, totalElements, size = 10){
     const btnNext = document.createElement('button');
     btnNext.textContent = '›';
     btnNext.disabled = page >= totalPages - 1;
-    btnNext.addEventListener('click', () => goToPage(page + 1));
+    btnNext.addEventListener('click', () => gotoPage(page + 1));
     control.appendChild(btnNext);
             
 }
