@@ -277,7 +277,18 @@
     min-width: 120px;
 }
 
+.pagination-ellipsis {
+    padding: 0 var(--spacing-xs);
+    color: var(--text-muted);
+    user-select: none;
+}
+.clickable-row {
+    cursor: pointer;
+}
 
+.clickable-row:hover {
+    background-color: var(--bg-body);
+}
 
 /* ------------------------------------------------------------
    7. RESPONSIVE
