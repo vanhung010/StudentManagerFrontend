@@ -3,25 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quản lý Khoa - Student Management System</title>
+<title>Chi tiết Sinh viên - Student Management System</title>
 <link rel="stylesheet" href="../../assets/css/base.css">
 <link rel="stylesheet" href="../../assets/css/layout.css">
 <link rel="stylesheet" href="../../assets/css/components.css">
-<link rel="stylesheet" href="../dashboard.css">
-<link rel="stylesheet" href="departments.css">
+<link rel="stylesheet" href="../admin-dashboard.css">
+<link rel="stylesheet" href="students.css">
+<link rel="stylesheet" href="detail.css">
 
 <script src="../../assets/js/api.js"></script>
 <script src="../../assets/js/auth.js"></script>
+<script src="/assets/js/service/studentService.js"></script>
 <script>
-    requireRole('ADMIN');   
+    requireRole('ADMIN');
 </script>
 </head>
 <body>
 
 <div class="app-layout">
 
-    <!-- ==================== SIDEBAR ==================== -->
-   <aside class="sidebar">
+    <!-- ==================== SIDEBAR (giữ nguyên bố cục đã thiết kế) ==================== -->
+    <aside class="sidebar">
         <div class="sidebar-logo">
             <span>EduManager</span>
             <small>Hệ thống quản lý</small>
@@ -29,75 +31,65 @@
 
         <ul class="sidebar-menu">
             <li class="sidebar-menu-item">
-                <a href="/admin/admin-dashboard.html" >
+                <a href="/admin/admin-dashboard.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                     Bảng điều khiển
                 </a>
             </li>
-
             <li class="sidebar-menu-item">
-                <a href="users/list.html">
+                <a href="/admin/users/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                     Tài khoản
                 </a>
             </li>
-
             <li class="sidebar-menu-item">
-                <a href="/admin/departments/list.html" class="active">
+                <a href="/admin/departments/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M5 21V7l7-4 7 4v14"></path><path d="M9 9h1"></path><path d="M9 13h1"></path><path d="M14 9h1"></path><path d="M14 13h1"></path></svg>
                     Khoa
                 </a>
             </li>
-
             <li class="sidebar-menu-item">
                 <a href="/admin/classes/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5Z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
                     Lớp học
                 </a>
             </li>
-
             <li class="sidebar-menu-item">
                 <a href="/admin/teachers/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                     Giảng viên
                 </a>
             </li>
-
             <li class="sidebar-menu-item">
-               <a href="/admin/students/list.html"></a>
+                <a href="/admin/students/list.html" class="active">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path></svg>
                     Sinh viên
                 </a>
             </li>
-
             <li class="sidebar-menu-item">
                 <a href="courses/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"></path></svg>
                     Môn học
                 </a>
             </li>
-
             <li class="sidebar-menu-item">
                 <a href="semesters/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>
                     Học kỳ
                 </a>
             </li>
-
             <li class="sidebar-menu-item">
                 <a href="course-sections/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"></path><path d="M9 7h6M9 11h6"></path></svg>
                     Lớp học phần
                 </a>
             </li>
-
             <li class="sidebar-menu-item">
                 <a href="tuition-fees/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"></rect><path d="M1 10h22"></path></svg>
                     Học phí
                 </a>
             </li>
-
             <li class="sidebar-menu-item">
                 <a href="notifications/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
@@ -118,18 +110,11 @@
     <div class="main-wrapper">
 
         <header class="header">
-            <h1 class="header-title">Quản lý Sinh viên</h1>
+            <h1 class="header-title">Chi tiết Sinh viên</h1>
             <div class="header-actions">
-                <div class="search-box">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    <input type="text" placeholder="Tìm kiếm...">
-                </div>
                 <button class="header-icon-btn header-notification">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                     <span class="header-notification-badge">3</span>
-                </button>
-                <button class="header-icon-btn">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"></path></svg>
                 </button>
                 <img class="avatar avatar-sm" src="https://i.pravatar.cc/64?img=12" alt="Admin avatar">
             </div>
@@ -138,96 +123,110 @@
         <main class="content">
 
             <nav class="breadcrumb">
-                <a href="../dashboard.html">Trang chủ</a>
+                <a href="/admin/admin-dashboard.html">Trang chủ</a>
                 <span>›</span>
-                <span class="current">Quản lý Khoa</span>
+                <a href="list.html">Quản lý Sinh viên</a>
+                <span>›</span>
+                <span class="current">Chi tiết</span>
             </nav>
 
             <div class="page-header">
-                <h1>Quản lý Khoa</h1>
-                <button class="btn btn-primary" id="btnAddDepartment">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    Thêm Khoa
-                </button>
+                <a href="list.html" class="btn btn-secondary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    Quay lại danh sách
+                </a>
             </div>
 
-            <div class="page-card">
+            <!-- ===== TRẠNG THÁI ĐANG TẢI ===== -->
+            <div class="page-card" id="detailLoading">
+                <p class="text-muted">Đang tải thông tin sinh viên...</p>
+            </div>
 
-                <div class="table-toolbar">
-                    <span class="text-muted">Tổng số: <strong class="text-primary-color" id ="total-department">5</strong> Khoa</span>
+            <!-- ===== NỘI DUNG CHI TIẾT (ẩn cho tới khi tải xong) ===== -->
+            <div id="detailContent" class="hidden">
 
-                         <div class="table-toolbar-right">
-                             <select class="form-control filter-status" id="statusFilter">
-                                 <option value="active">Đang hoạt động</option>
-                                 <option value="deleted">Đã xóa</option>
-                                 <option value="all">Tất cả</option>
-                             </select>
-
-                            <div class="search-box">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                                 <input type="text" placeholder="Tìm tên khoa...">
-                            </div>
-                         </div>
-                </div>
-
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>MÃ KHOA</th>
-                            <th>TÊN KHOA</th>
-                            <th>SỐ SINH VIÊN</th>
-                            <th>SỐ GIẢNG VIÊN</th>
-                            <th>Tình trạng</th>
-                            <th class="col-actions">THAO TÁC</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                      
-                    </tbody>
-                </table>
-
-                <div class="pagination">
-                    <span>Hiển thị 1-5 trong 5 mục</span>
-                    <div class="pagination-controls">
-                        <button disabled>Trước</button>
-                        <button class="active">1</button>
-                        <button>Tiếp</button>
+                <!-- Header card — avatar, tên, các badge tóm tắt -->
+                <div class="page-card detail-header-card">
+                    <img class="avatar avatar-lg" id="detailAvatar" src="" alt="Ảnh đại diện">
+                    <div class="detail-header-info">
+                        <h2 id="detailFullName">—</h2>
+                        <div class="detail-header-badges">
+                            <span class="badge badge-neutral" id="detailStudentCode">—</span>
+                            <span class="badge badge-info" id="detailClassCode">—</span>
+                            <span class="badge badge-info" id="detailDepartmentName">—</span>
+                        </div>
+                    </div>
+                    <div class="detail-gpa-box">
+                        <span class="detail-gpa-label">GPA</span>
+                        <span class="detail-gpa-value" id="detailGpa">—</span>
                     </div>
                 </div>
 
+                <!-- 2 cột thông tin -->
+                <div class="detail-grid">
+
+                    <div class="page-card">
+                        <h3 class="detail-section-title">Thông tin cá nhân</h3>
+
+                        <div class="detail-row">
+                            <span class="detail-label">Họ tên</span>
+                            <span class="detail-value" id="infoFullName">—</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Ngày sinh</span>
+                            <span class="detail-value" id="infoDob">—</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Giới tính</span>
+                            <span class="detail-value" id="infoGender">—</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Email</span>
+                            <span class="detail-value" id="infoEmail">—</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Số điện thoại</span>
+                            <span class="detail-value" id="infoPhone">—</span>
+                        </div>
+                    </div>
+
+                    <div class="page-card">
+                        <h3 class="detail-section-title">Thông tin học vụ</h3>
+
+                        <div class="detail-row">
+                            <span class="detail-label">Mã sinh viên</span>
+                            <span class="detail-value" id="infoStudentCode">—</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Khoa</span>
+                            <span class="detail-value" id="infoDepartment">—</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Lớp</span>
+                            <span class="detail-value" id="infoClass">—</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Năm nhập học</span>
+                            <span class="detail-value" id="infoEnrollmentYear">—</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">GPA tích lũy</span>
+                            <span class="detail-value" id="infoGpa">—</span>
+                        </div>
+                    </div>
+
+                </div>
             </div>
+
+            <!-- ===== TRẠNG THÁI LỖI (ẩn mặc định) ===== -->
+            <div class="page-card hidden" id="detailErrorState">
+                <p class="detail-error-text"></p>
+            </div>
+
         </main>
     </div>
 </div>
 
-<!-- ==================== MODAL THÊM/SỬA KHOA ==================== -->
-<div class="modal-overlay hidden" id="departmentModal">
-    <div class="modal">
-        <div class="modal-header">
-            <h3 id="modalTitle">Thêm Khoa mới</h3>
-            <button class="btn-icon" id="closeModal">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
-        </div>
-        <div class="modal-body">
-            <form id="departmentForm">
-                <div class="form-group">
-                    <label class="form-label">Mã Khoa</label>
-                    <input type="text" class="form-control" id="departmentCode" placeholder="VD: CNTT">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Tên Khoa</label>
-                    <input type="text" class="form-control" id="departmentName" placeholder="VD: Công nghệ thông tin">
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-secondary" id="cancelModal">Hủy</button>
-            <button class="btn btn-primary" id="saveDepartment">Lưu</button>
-        </div>
-    </div>
-</div>
-
-<script src="departments.js"></script>
+<script src="detail.js"></script>
 </body>
 </html>

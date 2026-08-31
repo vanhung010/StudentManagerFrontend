@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quản lý Lớp - Student Management System</title>
-<link rel="stylesheet" href="../../assets/css/base.css">
-<link rel="stylesheet" href="../../assets/css/layout.css">
-<link rel="stylesheet" href="../../assets/css/components.css">
-<link rel="stylesheet" href="../admin-dashboard.css">
-<link rel="stylesheet" href="classes.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Môn học - EduManager</title>
+    <link rel="stylesheet" href="../../assets/css/base.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <link rel="stylesheet" href="../../assets/css/components.css">
+    <link rel="stylesheet" href="../admin-dashboard.css">
+    <link rel="stylesheet" href="courses.css">
 
-<script src="../../assets/js/api.js"></script>
-<script src="../../assets/js/auth.js"></script>
-<script src="/assets/js/service/classService.js"></script>
-<script>
-    requireRole('ADMIN');   
-</script>
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/auth.js"></script>
+    <script src="../../assets/js/service/courseService.js"></script>
+    <script>
+        requireRole('ADMIN');
+    </script>
 </head>
 <body>
 
 <div class="app-layout">
 
-    <!-- ==================== SIDEBAR (giữ nguyên bố cục đã thiết kế) ==================== -->
+    <!-- ======================================================
+         SIDEBAR
+         GIỮ NGUYÊN sidebar tối + đủ 10 mục menu của project.
+         Không dùng sidebar sáng/rút gọn theo ảnh Stitch.
+         ====================================================== -->
     <aside class="sidebar">
         <div class="sidebar-logo">
             <span>EduManager</span>
@@ -35,72 +39,62 @@
                     Bảng điều khiển
                 </a>
             </li>
-
             <li class="sidebar-menu-item">
-                <a href="users/list.html">
+                <a href="/admin/users/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                     Tài khoản
                 </a>
             </li>
-
             <li class="sidebar-menu-item">
                 <a href="/admin/departments/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M5 21V7l7-4 7 4v14"></path><path d="M9 9h1"></path><path d="M9 13h1"></path><path d="M14 9h1"></path><path d="M14 13h1"></path></svg>
                     Khoa
                 </a>
             </li>
-
             <li class="sidebar-menu-item">
-                <a href="/admin/classes/list.html" class="active">
+                <a href="/admin/classes/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5Z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
                     Lớp học
                 </a>
             </li>
-
             <li class="sidebar-menu-item">
                 <a href="/admin/teachers/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                     Giảng viên
                 </a>
             </li>
-
             <li class="sidebar-menu-item">
                 <a href="/admin/students/list.html">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M17 5a4 4 0 0 1 0 7.75"></path></svg>
                     Sinh viên
                 </a>
             </li>
-
             <li class="sidebar-menu-item">
-                <a href="courses/list.html">
+                <a href="/admin/courses/list.html" class="active">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"></path></svg>
                     Môn học
                 </a>
             </li>
-
             <li class="sidebar-menu-item">
-                <a href="semesters/list.html">
+                <a href="/admin/semesters/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>
                     Học kỳ
                 </a>
             </li>
-
             <li class="sidebar-menu-item">
-                <a href="course-sections/list.html">
+                <a href="/admin/course-sections/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"></path><path d="M9 7h6M9 11h6"></path></svg>
                     Lớp học phần
                 </a>
             </li>
-
             <li class="sidebar-menu-item">
-                <a href="tuition-fees/list.html">
+                <a href="/admin/tuition-fees/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"></rect><path d="M1 10h22"></path></svg>
                     Học phí
                 </a>
             </li>
-
             <li class="sidebar-menu-item">
-                <a href="notifications/list.html">
+                <a href="/admin/notifications/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                     Thông báo
                 </a>
@@ -108,171 +102,157 @@
         </ul>
 
         <div class="sidebar-user">
-            <a href="../../login.html" style="display:flex; align-items:center; gap:8px; color:#CBD5E1;" id="logout">
+            <a href="/login.html" style="display:flex; align-items:center; gap:8px; color:#CBD5E1;" id="logout">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                 Đăng xuất
             </a>
         </div>
     </aside>
 
-    <!-- ==================== MAIN WRAPPER ==================== -->
     <div class="main-wrapper">
-
         <header class="header">
-            <h1 class="header-title">Quản lý Lớp</h1>
+            <h1 class="header-title">Quản lý Môn học</h1>
             <div class="header-actions">
                 <div class="search-box">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                     <input type="text" placeholder="Tìm kiếm nhanh...">
                 </div>
-                <button class="header-icon-btn header-notification">
+                <button class="header-icon-btn header-notification" type="button" aria-label="Thông báo">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                     <span class="header-notification-badge">3</span>
                 </button>
-                <button class="header-icon-btn">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"></path></svg>
+                <button class="header-icon-btn" type="button" aria-label="Cài đặt">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15 1.65 1.65 0 0 0 3.09 14H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06A2 2 0 1 1 7.04 4.3l.06.06A1.65 1.65 0 0 0 9 4.6h.09A1.65 1.65 0 0 0 10 3.09V3a2 2 0 1 1 4 0v.09A1.65 1.65 0 0 0 15 4.6c.66.27 1.4.12 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.27.66.12 1.4.33 1.82l.06.06A2 2 0 1 1 21 15.4l-.06-.06A1.65 1.65 0 0 0 19.4 15Z"></path></svg>
                 </button>
                 <img class="avatar avatar-sm" src="https://i.pravatar.cc/64?img=12" alt="Admin avatar">
             </div>
         </header>
 
         <main class="content">
-
             <nav class="breadcrumb">
-                <a href="../dashboard.html">Trang chủ</a>
+                <a href="/admin/admin-dashboard.html">Trang chủ</a>
                 <span>›</span>
-                <span class="current">Quản lý Lớp</span>
+                <span class="current">Quản lý Môn học</span>
             </nav>
 
             <div class="page-header">
-                <h1>Quản lý Lớp</h1>
-                <button class="btn btn-primary" id="btnAddClass">
+                <div>
+                    <h1>Quản lý Môn học</h1>
+                </div>
+                <button class="btn btn-primary" id="btnAddCourse" type="button">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    Thêm Lớp
+                    Thêm Môn học
                 </button>
             </div>
 
             <div class="page-card">
-
-                <!-- ===== BỘ LỌC ===== -->
-                <div class="filter-row">
-                    <div class="form-group filter-item">
-                        <label class="form-label">Khoa</label>
-                        <select class="form-control" id="filterDepartment">
-                        </select>
-                    </div>
-
-                    <div class="form-group filter-item">
-                        <label class="form-label">Năm nhập học</label>
-                        <select class="form-control" id="filterYear">
-                           
-                        </select>
-                    </div>
-
-                    <div class="form-group filter-item">
-                        <label class="form-label">Trạng thái</label>
-                        <select class="form-control" id="filterStatus">
-                            <option value="">Tất cả trạng thái</option>
-                            <option value="ACTIVE">Đang hoạt động</option>
-                            <option value="DELETED">Đã xóa</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group filter-item filter-item-search">
-                        <label class="form-label">Tìm kiếm</label>
-                        <div class="search-box search-box-full">
+                <!-- THÊM: bộ lọc theo đúng pattern các module có soft-delete. -->
+                <div class="course-filter-row">
+                    <div class="form-group course-filter-item">
+                        <label class="form-label" for="searchInput">Tìm kiếm</label>
+                        <div class="search-box course-search-box">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                            <input type="text" id="searchInput" placeholder="Tìm kiếm lớp học...">
+                            <input id="searchInput" type="text" placeholder="Tìm kiếm theo mã, tên môn...">
                         </div>
                     </div>
-                </div>
 
-                <!-- ===== BẢNG DANH SÁCH ===== -->
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>MÃ LỚP</th>
-                            <th>TÊN LỚP</th>
-                            <th>KHOA</th>
-                            <th>CỐ VẤN HỌC TẬP</th>
-                            <th>SỐ SINH VIÊN</th>
-                            <th>NĂM NHẬP HỌC</th>
-                            <th>TRẠNG THÁI</th>
-                            <th class="col-actions">THAO TÁC</th>
-                        </tr>
-                    </thead>
-                    <tbody id="classTableBody">
-                      
-                    </tbody>
-                </table>
+                    <div class="form-group course-filter-item">
+                        <label class="form-label" for="filterDepartment">Khoa</label>
+                        <select class="form-control" id="filterDepartment"></select>
+                    </div>
 
-                <div class="pagination">
-                    <span></span>
-                    <div class="pagination-controls">
-                      
+                    <div class="form-group course-filter-item">
+                        <label class="form-label" for="filterStatus">Trạng thái</label>
+                        <select class="form-control" id="filterStatus">
+                            <option value="active">Đang hoạt động</option>
+                            <option value="deleted">Đã xóa</option>
+                            <option value="all">Tất cả trạng thái</option>
+                        </select>
                     </div>
                 </div>
 
+                <div style="overflow-x:auto;">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>MÃ MÔN</th>
+                            <th>TÊN MÔN</th>
+                            <th>SỐ TÍN CHỈ</th>
+                            <th>KHOA</th>
+                            <th>TRẠNG THÁI</th>
+                            <!-- THÊM: icon Sửa/Xóa/Khôi phục theo pattern module khác. -->
+                            <th class="col-actions">THAO TÁC</th>
+                        </tr>
+                        </thead>
+                        <tbody id="courseTableBody"></tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <span id="paginationSummary">Hiển thị 0-0 của 0 môn học</span>
+                    <div class="pagination-controls" id="paginationControls"></div>
+                </div>
             </div>
         </main>
     </div>
 </div>
 
-<!-- ==================== MODAL THÊM LỚP HÀNH CHÍNH ==================== -->
-<div class="modal-overlay hidden" id="classModal">
+<!-- ==========================================================
+     THÊM: MODAL THÊM / SỬA MÔN HỌC
+     Không tạo trang riêng như Image 2; form nằm overlay trên danh sách.
+     ========================================================== -->
+<div class="modal-overlay hidden course-modal" id="courseModal">
     <div class="modal">
         <div class="modal-header">
-            <h3 id="modalTitle">Thêm Lớp hành chính</h3>
-            <button class="btn-icon" id="closeModal">
+            <h3 id="modalTitle">Thêm Môn học</h3>
+            <button class="btn-icon" id="closeModal" type="button" aria-label="Đóng">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
         </div>
+
         <div class="modal-body">
-            <form id="classForm">
-                <div class="form-row">
+            <form id="courseForm">
+                <div class="course-form-grid">
                     <div class="form-group">
-                        <label class="form-label">Mã Lớp</label>
-                        <input type="text" class="form-control" id="classCode" placeholder="VD: D21-CNTT01">
+                        <label class="form-label" for="courseCode">Mã Môn học *</label>
+                        <input class="form-control" id="courseCode" type="text" maxlength="50" placeholder="VD: IT101" required>
                     </div>
+
                     <div class="form-group">
-                        <label class="form-label">Tên Lớp</label>
-                        <input type="text" class="form-control" id="className" placeholder="VD: Công nghệ thông tin 01">
+                        <label class="form-label" for="courseCredits">Số tín chỉ *</label>
+                        <input class="form-control" id="courseCredits" type="number" min="1" max="20" placeholder="VD: 3" required>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="form-label">Khoa</label>
-                    <select class="form-control" id="classDepartment">
-                      
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Cố vấn học tập</label>
-                    <div class="advisor-input-wrap">
-                        <div class="input-with-icon">
-                            <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                            <input type="text" class="form-control input-icon-padding" id="classAdvisor" placeholder="Tìm kiếm giảng viên..." autocomplete="off">
-                        </div>
-                        <div class="advisor-dropdown hidden" id="advisorDropdown" aria-label="Danh sách giảng viên"></div>
+                    <div class="form-group full-width">
+                        <label class="form-label" for="courseName">Tên Môn học *</label>
+                        <input class="form-control" id="courseName" type="text" maxlength="50" placeholder="VD: Cấu trúc dữ liệu và giải thuật" required>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="form-label">Năm nhập học</label>
-                    <input type="number" class="form-control" id="classYear" placeholder="2024">
+                    <div class="form-group full-width">
+                        <label class="form-label" for="courseDepartment">Khoa quản lý *</label>
+                        <select class="form-control" id="courseDepartment" required>
+                            <option value="">Chọn Khoa quản lý</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label" for="courseDescription">Mô tả môn học</label>
+                        <textarea class="form-control course-description-input" id="courseDescription" maxlength="200" placeholder="Nhập mô tả chi tiết về nội dung môn học, mục tiêu, yêu cầu tiên quyết..."></textarea>
+                        <div class="modal-help-text">Tối đa 200 ký tự.</div>
+                    </div>
                 </div>
             </form>
         </div>
+
         <div class="modal-footer">
-            <button class="btn btn-secondary" id="cancelModal">Hủy</button>
-            <button class="btn btn-primary" id="saveClass">Lưu</button>
+            <button class="btn btn-secondary" id="cancelModal" type="button">Hủy bỏ</button>
+            <button class="btn btn-primary" id="saveCourse" type="button">Lưu Môn học</button>
         </div>
     </div>
 </div>
 
-<script src="classes.js"></script>
-<script src="/assets/js/service/teacherService.js"></script>
+<div class="toast-container" id="toastContainer"></div>
 
+<script src="courses.js"></script>
 </body>
 </html>

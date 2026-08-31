@@ -1,0 +1,300 @@
+/* ============================================================
+   SEMESTERS.CSS
+   Style riêng cho trang Quản lý Học kỳ.
+   Load sau base.css, layout.css, components.css
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. TIÊU ĐỀ TRANG — thêm dòng mô tả phụ dưới "Quản lý Học kỳ"
+   ------------------------------------------------------------ */
+.page-subtitle {
+    margin-top: 4px;
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+/* ------------------------------------------------------------
+   2. HÀNG BỘ LỌC — chỉ 2 cột: Trạng thái / Tìm kiếm
+      (Học kỳ không có nhiều chiều lọc như Lớp học nên không cần
+      grid 4 cột — dùng layout riêng, gọn hơn)
+   ------------------------------------------------------------ */
+.filter-row-semesters {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.filter-item {
+    margin-bottom: 0;
+}
+
+.search-box-full {
+    width: 100%;
+}
+
+.table-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-md);
+}
+
+/* ------------------------------------------------------------
+   3. CỘT "TÊN HỌC KỲ" — nới rộng để tránh chữ bị wrap 3-4 dòng
+      như "Học kỳ 1 - Năm học 2023-2024"
+   ------------------------------------------------------------ */
+.col-semester-name {
+    min-width: 240px;
+    max-width: 320px;
+}
+
+/* Nếu màn hình quá hẹp, cắt ngắn còn 1 dòng + "..." — tên đầy đủ
+   vẫn xem được qua thuộc tính title (tooltip) đã gắn trong HTML */
+@media (max-width: 1200px) {
+    .col-semester-name {
+        max-width: 220px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.status-cell {
+    white-space: nowrap;
+}
+
+.status-badge {
+    min-width: 120px;
+    justify-content: center;
+}
+
+/* ------------------------------------------------------------
+   4. CỘT THAO TÁC — disabled nút Xóa ở học kỳ đang active,
+      icon "Đặt làm học kỳ hiện tại" (ngôi sao) chỉ hiện ở học kỳ
+      đã kết thúc
+   ------------------------------------------------------------ */
+.col-actions {
+    width: 140px;
+    min-width: 140px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.action-buttons {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+}
+
+.action-buttons .btn-icon {
+    flex: 0 0 32px;
+}
+
+.action-buttons .btn-icon svg {
+    display: block;
+}
+
+/* Nút Xóa bị disable ở dòng active — làm mờ + đổi con trỏ để
+   Admin hiểu ngay là không bấm được, thay vì bấm rồi mới lỗi */
+.btn-icon:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: auto;   /* vẫn giữ để title/tooltip hiển thị khi hover */
+}
+
+.btn-icon:disabled:hover {
+    background-color: transparent;
+    color: inherit;
+}
+
+/* Icon "Đặt làm học kỳ hiện tại" — tông cam vàng, khác màu với
+   Sửa (mặc định) và Xóa (đỏ) để phân biệt rõ 3 hành động */
+.btn-icon.set-current {
+    color: var(--color-warning);
+}
+
+.btn-icon.set-current:hover {
+    background-color: var(--color-warning-bg);
+    color: var(--color-warning);
+}
+
+/* ------------------------------------------------------------
+   5. MODAL TẠO HỌC KỲ
+   ------------------------------------------------------------ */
+.modal-subtitle {
+    margin-top: 2px;
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.form-section-title {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin: var(--spacing-md) 0 var(--spacing-sm);
+}
+
+.form-divider {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: var(--spacing-lg) 0;
+}
+
+/* ------------------------------------------------------------
+   6. TOGGLE SWITCH — chưa có sẵn trong components.css, viết mới
+      tại đây; nếu sau này module khác cũng cần, nên chuyển lên
+      components.css để dùng chung.
+   ------------------------------------------------------------ */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 42px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    inset: 0;
+    background-color: var(--border-color);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.toggle-slider::before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    left: 3px;
+    top: 3px;
+    background-color: #fff;
+    border-radius: 50%;
+    transition: transform var(--transition-fast);
+    box-shadow: var(--shadow-sm);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background-color: var(--color-primary);
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+    transform: translateX(18px);
+}
+
+.toggle-switch input:focus-visible + .toggle-slider {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Khối cảnh báo bọc toggle "Đặt làm học kỳ hiện tại" — nền cam
+   nhạt + viền trái nhấn mạnh, để Admin thấy rõ đây là hành động
+   ảnh hưởng lớn (tự động kết thúc học kỳ active khác) */
+.toggle-warning-box {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    background-color: var(--color-warning-bg);
+    border-left: 3px solid var(--color-warning);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+}
+
+.toggle-warning-text strong {
+    display: block;
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.toggle-warning-text p {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: var(--font-size-xs);
+    color: var(--color-warning);
+    font-weight: 500;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.toggle-warning-text p svg {
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+/* ------------------------------------------------------------
+    MODAL BÁO LỖI — nhỏ gọn, canh giữa, có icon cảnh báo
+   ------------------------------------------------------------ */
+.modal-error {
+    max-width: 360px;
+}
+
+.error-modal-body {
+    text-align: center;
+    padding-top: var(--spacing-xl);
+}
+
+.error-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--spacing-md);
+}
+
+.error-modal-body h3 {
+    margin-bottom: var(--spacing-sm);
+}
+
+.error-modal-body p {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.error-modal-footer {
+    justify-content: center;
+}
+
+.error-modal-footer .btn {
+    min-width: 120px;
+}
+
+.pagination-ellipsis {
+    padding: 0 var(--spacing-xs);
+    color: var(--text-muted);
+    user-select: none;
+}
+.clickable-row {
+    cursor: pointer;
+}
+
+.clickable-row:hover {
+    background-color: var(--bg-body);
+}
+
+/* ------------------------------------------------------------
+   7. RESPONSIVE
+   ------------------------------------------------------------ */
+@media (max-width: 900px) {
+    .filter-row-semesters {
+        grid-template-columns: 1fr;
+    }
+}

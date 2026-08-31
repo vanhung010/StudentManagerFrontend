@@ -3,25 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quản lý Khoa - Student Management System</title>
+<title>Quản lý Học kỳ - Student Management System</title>
 <link rel="stylesheet" href="../../assets/css/base.css">
 <link rel="stylesheet" href="../../assets/css/layout.css">
 <link rel="stylesheet" href="../../assets/css/components.css">
-<link rel="stylesheet" href="../dashboard.css">
-<link rel="stylesheet" href="departments.css">
-
+<link rel="stylesheet" href="../admin-dashboard.css">
+<link rel="stylesheet" href="semesters.css">
+<script src="/assets/js/service/semesterService.js"> </script>
 <script src="../../assets/js/api.js"></script>
 <script src="../../assets/js/auth.js"></script>
 <script>
-    requireRole('ADMIN');   
+    requireRole('ADMIN');
 </script>
 </head>
 <body>
 
 <div class="app-layout">
 
-    <!-- ==================== SIDEBAR ==================== -->
-   <aside class="sidebar">
+    <!-- ==================== SIDEBAR (giữ nguyên bố cục đã thiết kế — 10 mục) ==================== -->
+    <aside class="sidebar">
         <div class="sidebar-logo">
             <span>EduManager</span>
             <small>Hệ thống quản lý</small>
@@ -29,21 +29,21 @@
 
         <ul class="sidebar-menu">
             <li class="sidebar-menu-item">
-                <a href="/admin/admin-dashboard.html" >
+                <a href="/admin/admin-dashboard.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                     Bảng điều khiển
                 </a>
             </li>
 
             <li class="sidebar-menu-item">
-                <a href="users/list.html">
+                <a href="/admin/users/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                     Tài khoản
                 </a>
             </li>
 
             <li class="sidebar-menu-item">
-                <a href="/admin/departments/list.html" class="active">
+                <a href="/admin/departments/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M5 21V7l7-4 7 4v14"></path><path d="M9 9h1"></path><path d="M9 13h1"></path><path d="M14 9h1"></path><path d="M14 13h1"></path></svg>
                     Khoa
                 </a>
@@ -64,42 +64,42 @@
             </li>
 
             <li class="sidebar-menu-item">
-               <a href="/admin/students/list.html"></a>
+                <a href="/admin/students/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path></svg>
                     Sinh viên
                 </a>
             </li>
 
             <li class="sidebar-menu-item">
-                <a href="courses/list.html">
+                <a href="/admin/courses/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"></path></svg>
                     Môn học
                 </a>
             </li>
 
             <li class="sidebar-menu-item">
-                <a href="semesters/list.html">
+                <a href="/admin/semesters/list.html" class="active">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>
                     Học kỳ
                 </a>
             </li>
 
             <li class="sidebar-menu-item">
-                <a href="course-sections/list.html">
+                <a href="/admin/course-sections/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"></path><path d="M9 7h6M9 11h6"></path></svg>
                     Lớp học phần
                 </a>
             </li>
 
             <li class="sidebar-menu-item">
-                <a href="tuition-fees/list.html">
+                <a href="/admin/tuition-fees/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"></rect><path d="M1 10h22"></path></svg>
                     Học phí
                 </a>
             </li>
 
             <li class="sidebar-menu-item">
-                <a href="notifications/list.html">
+                <a href="/admin/notifications/list.html">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                     Thông báo
                 </a>
@@ -118,11 +118,11 @@
     <div class="main-wrapper">
 
         <header class="header">
-            <h1 class="header-title">Quản lý Sinh viên</h1>
+            <h1 class="header-title">Quản lý Học kỳ</h1>
             <div class="header-actions">
                 <div class="search-box">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    <input type="text" placeholder="Tìm kiếm...">
+                    <input type="text" placeholder="Tìm kiếm nhanh...">
                 </div>
                 <button class="header-icon-btn header-notification">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
@@ -138,60 +138,71 @@
         <main class="content">
 
             <nav class="breadcrumb">
-                <a href="../dashboard.html">Trang chủ</a>
+                <a href="/admin/admin-dashboard.html">Trang chủ</a>
                 <span>›</span>
-                <span class="current">Quản lý Khoa</span>
+                <span class="current">Quản lý Học kỳ</span>
             </nav>
 
             <div class="page-header">
-                <h1>Quản lý Khoa</h1>
-                <button class="btn btn-primary" id="btnAddDepartment">
+                <div>
+                    <h1>Quản lý Học kỳ</h1>
+                    <p class="page-subtitle">Quản lý và cấu hình thời gian các học kỳ trong năm học.</p>
+                </div>
+                <button class="btn btn-primary" id="btnAddSemester">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    Thêm Khoa
+                    Tạo Học kỳ
                 </button>
             </div>
 
             <div class="page-card">
 
-                <div class="table-toolbar">
-                    <span class="text-muted">Tổng số: <strong class="text-primary-color" id ="total-department">5</strong> Khoa</span>
+                <!-- ===== BỘ LỌC (thêm dropdown Trạng thái — theo đúng pattern Class/Teacher/Course) ===== -->
+                <div class="filter-row filter-row-semesters">
+                    <div class="form-group filter-item">
+                        <label class="form-label">Trạng thái</label>
+                        <select class="form-control" id="filterStatus">
+                            <option value="">Tất cả trạng thái</option>
+                            <option value="ACTIVE">Đang hoạt động</option>
+                            <option value="ENDED">Đã kết thúc</option>
+                        </select>
+                    </div>
 
-                         <div class="table-toolbar-right">
-                             <select class="form-control filter-status" id="statusFilter">
-                                 <option value="active">Đang hoạt động</option>
-                                 <option value="deleted">Đã xóa</option>
-                                 <option value="all">Tất cả</option>
-                             </select>
-
-                            <div class="search-box">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                                 <input type="text" placeholder="Tìm tên khoa...">
-                            </div>
-                         </div>
+                    <div class="form-group filter-item filter-item-search">
+                        <label class="form-label">Tìm kiếm</label>
+                        <div class="search-box search-box-full">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            <input type="text" id="searchInput" placeholder="Tìm kiếm học kỳ...">
+                        </div>
+                    </div>
                 </div>
 
+                <div class="table-toolbar">
+                    <span class="text-muted">Tổng số: <strong class="text-primary-color" id = "totalSemester">4</strong> học kỳ</span>
+                </div>
+
+                <!-- ===== BẢNG DANH SÁCH (dữ liệu mẫu tĩnh — chưa nối API) ===== -->
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>MÃ KHOA</th>
-                            <th>TÊN KHOA</th>
-                            <th>SỐ SINH VIÊN</th>
-                            <th>SỐ GIẢNG VIÊN</th>
-                            <th>Tình trạng</th>
+                            <th>MÃ HỌC KỲ</th>
+                            <th class="col-semester-name">TÊN HỌC KỲ</th>
+                            <th>NGÀY BẮT ĐẦU</th>
+                            <th>NGÀY KẾT THÚC</th>
+                            <th>THỜI GIAN ĐĂNG KÝ</th>
+                            <th>TRẠNG THÁI</th>
                             <th class="col-actions">THAO TÁC</th>
                         </tr>
                     </thead>
-                    <tbody>
-                      
+                    <tbody id="semesterTableBody">
+                    
+                        
                     </tbody>
                 </table>
 
                 <div class="pagination">
-                    <span>Hiển thị 1-5 trong 5 mục</span>
+                    <span>Hiển thị 1-4 trên 4 kết quả</span>
                     <div class="pagination-controls">
-                        <button disabled>Trước</button>
-                        <button class="active">1</button>
-                        <button>Tiếp</button>
+                       
                     </div>
                 </div>
 
@@ -200,34 +211,98 @@
     </div>
 </div>
 
-<!-- ==================== MODAL THÊM/SỬA KHOA ==================== -->
-<div class="modal-overlay hidden" id="departmentModal">
-    <div class="modal">
+<!-- ==================== MODAL TẠO HỌC KỲ (đúng pattern modal-overlay, có nút đóng X) ==================== -->
+<div class="modal-overlay hidden" id="semesterModal">
+    <div class="modal modal-lg">
         <div class="modal-header">
-            <h3 id="modalTitle">Thêm Khoa mới</h3>
+            <div>
+                <h3 id="modalTitle">Tạo Học kỳ mới</h3>
+                <p class="modal-subtitle">Thiết lập thông tin cơ bản và thời gian cho học kỳ.</p>
+            </div>
             <button class="btn-icon" id="closeModal">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
         </div>
         <div class="modal-body">
-            <form id="departmentForm">
-                <div class="form-group">
-                    <label class="form-label">Mã Khoa</label>
-                    <input type="text" class="form-control" id="departmentCode" placeholder="VD: CNTT">
+            <form id="semesterForm">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Mã Học Kỳ</label>
+                        <input type="text" class="form-control" id="semesterCode" placeholder="VD: HK1-2024">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tên Học Kỳ</label>
+                        <input type="text" class="form-control" id="semesterName" placeholder="VD: Học kỳ 1 - Năm học 2024-2025">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Tên Khoa</label>
-                    <input type="text" class="form-control" id="departmentName" placeholder="VD: Công nghệ thông tin">
+
+                <div class="form-section-title">Thời gian học</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Ngày bắt đầu</label>
+                        <input type="date" class="form-control" id="semesterStartDate">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Ngày kết thúc</label>
+                        <input type="date" class="form-control" id="semesterEndDate">
+                    </div>
                 </div>
+
+                <div class="form-section-title">Thời gian đăng ký</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Ngày mở đăng ký</label>
+                        <input type="date" class="form-control" id="registrationOpenDate">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Ngày đóng đăng ký</label>
+                        <input type="date" class="form-control" id="registrationCloseDate">
+                    </div>
+                </div>
+
+                <hr class="form-divider">
+
+                <!-- Cảnh báo hậu quả rõ ràng khi bật toggle — nền cam nhạt, viền trái nhấn mạnh -->
+                <div class="toggle-warning-box">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="setCurrentToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <div class="toggle-warning-text">
+                        <strong>Đặt làm học kỳ hiện tại</strong>
+                        <p>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                            Học kỳ này sẽ được chọn mặc định trong toàn bộ hệ thống. Học kỳ đang hoạt động hiện tại (nếu có) sẽ tự động chuyển sang trạng thái "Đã kết thúc".
+                        </p>
+                    </div>
+                </div>
+
             </form>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-secondary" id="cancelModal">Hủy</button>
-            <button class="btn btn-primary" id="saveDepartment">Lưu</button>
+            <button class="btn btn-secondary" id="cancelModal">Hủy bỏ</button>
+            <button class="btn btn-primary" id="saveSemester">Lưu Học kỳ</button>
         </div>
     </div>
 </div>
 
-<script src="departments.js"></script>
+<div class="modal-overlay hidden" id="errorModal">
+    <div class="modal modal-error">
+        <div class="modal-body error-modal-body">
+            <div class="error-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            </div>
+            <h3>Đã xảy ra lỗi</h3>
+            <p id="errorModalMessage"></p>
+        </div>
+        <div class="modal-footer error-modal-footer">
+            <button class="btn btn-primary" id="closeErrorModal">Đã hiểu</button>
+        </div>
+    </div>
+</div>
+
+
+<script src="semesters.js"></script>
 </body>
 </html>

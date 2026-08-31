@@ -15,3 +15,11 @@ function getAllClass(keyword = '', enrollmentYear = '', status = '', idDepartmen
 
 
 }
+
+function getClass(id){
+    return apiFetch(`/classes/${id}`)
+}
+
+function getAllEnrollmentYear(){
+    return apiFetch('/classes/enrollment-years')
+}

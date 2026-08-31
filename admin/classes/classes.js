@@ -29,7 +29,7 @@ const containButton = document.querySelector('.action-buttons');
 
 let editingId = null;
 let currentPage = 0;
-const pageSize = 5;
+const pageSize = 10;
 
 
 // ---------------- MỞ / ĐÓNG MODAL ----------------
@@ -443,7 +443,6 @@ document.querySelector('.table tbody').addEventListener('click', async (e) => {
 
     if (restoreBtn) {
        
-
         if (!confirm(`Bạn có chắc chắn muốn khôi phục lớp "${restoreBtn.dataset.name}"?`)) return;
 
         restoreBtn.disabled = true;

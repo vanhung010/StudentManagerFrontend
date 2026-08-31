@@ -100,3 +100,46 @@ th.col-actions {
 .input-with-icon .toggle-password:hover {
     color: var(--text-primary);
 }
+
+/* ------------------------------------------------------------
+   4. MODAL BÁO LỖI — nhỏ gọn, canh giữa, có icon cảnh báo
+   ------------------------------------------------------------ */
+.modal-error {
+    max-width: 360px;
+}
+
+.error-modal-body {
+    text-align: center;
+    padding-top: var(--spacing-xl);
+}
+
+.error-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--spacing-md);
+}
+
+.error-modal-body h3 {
+    margin-bottom: var(--spacing-sm);
+}
+
+.error-modal-body p {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.error-modal-footer {
+    justify-content: center;
+}
+
+.error-modal-footer .btn {
+    min-width: 120px;
+}
+
