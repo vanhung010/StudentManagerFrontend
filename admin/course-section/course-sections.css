@@ -1,0 +1,184 @@
+/* ============================================================
+   COURSE-SECTIONS.CSS
+   Style riêng cho trang Quản lý Lớp học phần.
+   Load sau base.css, layout.css, components.css
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. AVATAR CỠ NHỎ — components.css mới chỉ có sm/md/lg,
+      cột "Giảng viên" trong bảng cần cỡ nhỏ hơn avatar-sm (32px)
+   ------------------------------------------------------------ */
+.avatar-xs { width: 24px; height: 24px; }
+
+/* ------------------------------------------------------------
+   2. HÀNG BỘ LỌC — 4 dropdown (Học kỳ/Môn học/Giảng viên/Trạng
+      thái) + nút "Lọc" cùng hàng
+   ------------------------------------------------------------ */
+.filter-row-sections {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr 1.2fr 1fr auto;
+    gap: var(--spacing-md);
+    align-items: end;
+    margin-bottom: var(--spacing-lg);
+}
+
+.filter-item {
+    margin-bottom: 0;
+}
+
+.btn-filter {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    height: 38px;
+}
+
+@media (max-width: 1200px) {
+    .filter-row-sections {
+        grid-template-columns: 1fr 1fr;
+    }
+    .btn-filter {
+        grid-column: 1 / -1;
+        justify-content: center;
+    }
+}
+
+/* ------------------------------------------------------------
+   3. Ô "GIẢNG VIÊN" — avatar nhỏ + tên cùng hàng
+   ------------------------------------------------------------ */
+.teacher-cell {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.teacher-cell span {
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+}
+
+/* ------------------------------------------------------------
+   4. Ô "SĨ SỐ" — chỉ hiện dạng "32/50", đã bỏ progress bar theo
+      yêu cầu (trước đó dùng .progress/.progress-bar, nay không
+      cần nữa cho cột này)
+   ------------------------------------------------------------ */
+.col-enrollment {
+    width: 90px;
+    min-width: 90px;
+    text-align: center;
+}
+
+.enrollment-text {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.enrollment-sep {
+    color: var(--text-muted);
+    font-weight: 400;
+    margin: 0 1px;
+}
+
+.status-cell {
+    white-space: nowrap;
+}
+
+.status-badge {
+    min-width: 100px;
+    justify-content: center;
+}
+
+/* ------------------------------------------------------------
+   5. CỘT THAO TÁC — disable Sửa/Hủy khi lớp đã Đóng/Đã hủy,
+      giống pattern đã dùng ở module Học kỳ (không để Admin bấm
+      rồi mới nhận lỗi từ Backend)
+   ------------------------------------------------------------ */
+.col-actions {
+    width: 100px;
+    min-width: 100px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.action-buttons {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+}
+
+.action-buttons .btn-icon {
+    flex: 0 0 32px;
+}
+
+.action-buttons .btn-icon svg {
+    display: block;
+}
+
+.btn-icon:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.btn-icon:disabled:hover {
+    background-color: transparent;
+    color: inherit;
+}
+
+/* ------------------------------------------------------------
+   6. PHÂN TRANG — dấu "..." tĩnh (chưa nối API nên chỉ hiển thị
+      đúng hình dạng, chưa có logic nhảy trang thật)
+   ------------------------------------------------------------ */
+.pagination-ellipsis {
+    padding: var(--spacing-xs) var(--spacing-xs);
+    color: var(--text-muted);
+}
+
+/* ------------------------------------------------------------
+   7. HÀNG TRONG BẢNG — bấm vào để xem Chi tiết Lớp học phần
+   ------------------------------------------------------------ */
+.table tbody tr.row-clickable {
+    cursor: pointer;
+}
+
+.table tbody tr.row-clickable:hover {
+    background-color: var(--bg-body);
+}
+
+/* Nút Thao tác nằm trong hàng clickable — chặn click nổi bọt lên
+   hàng khi bấm Sửa/Hủy, xử lý ở JS (stopPropagation) */
+
+/* ------------------------------------------------------------
+   8. MODAL — ô "Trạng thái" khóa (icon ổ khóa bên phải, disabled)
+   ------------------------------------------------------------ */
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon-right {
+    position: absolute;
+    right: var(--spacing-md);
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+.input-icon-padding-right {
+    padding-right: 40px;
+}
+
+.form-control:disabled {
+    background-color: var(--bg-body);
+    color: var(--text-muted);
+    cursor: not-allowed;
+}
+
+.form-hint {
+    margin-top: var(--spacing-xs);
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
