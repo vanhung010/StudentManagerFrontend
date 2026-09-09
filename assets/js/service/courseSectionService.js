@@ -26,5 +26,24 @@ function saveCourseSection(payload) {
 }
 
 function updateCourseSectionStatus(id, status) {
-    return apiFetch(`/course-sections/${id}/status`, 'PATCH', { status });
+    return apiFetch(`/course-section/${id}/status`, 'PATCH', { status });
+}
+
+//Chuyển trạng thái lớp học phần sang open
+function openCourseSection(id){
+    return apiFetch(`/course-section/${id}/open`, 'PATCH')
+}
+
+//Chuyển trạng thái lớp học phần sang đóng
+function closeCourseSection(id){
+    return apiFetch(`/course-section/${id}/close`, 'PATCH')
+}
+//Xóa học phần
+function deletedCourseSection(id){
+    return apiFetch(`/course-section/${id}/deleted`, 'DELETE')
+}
+
+//Khôi phục học phần
+function restoreCourseSection(id){
+    return apiFetch(`/course-section/${id}/restore`, 'PATCH')
 }

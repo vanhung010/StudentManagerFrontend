@@ -58,9 +58,6 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// TODO: nối API thật — khi có endpoint, thay đoạn dưới bằng
-// apiFetch('/course-sections', 'POST', {...}) rồi mới closeModal()
-// + loadSections() lại danh sách.
 saveSectionBtn.addEventListener('click', () => {
     try {
     if (!sectionForm.reportValidity()) return;
@@ -85,7 +82,6 @@ saveSectionBtn.addEventListener('click', () => {
   
    
 });
-
 
 const paginationControls = document.getElementById('paginationControls');
 const paginationSummary = document.querySelector('.pagination > span');
@@ -336,24 +332,26 @@ sectionTableBody.addEventListener('click', async (e) => {
 
         const sectionId = actionButton.dataset.id;
         const sectionCode = actionButton.dataset.name;
-        let status;
+        let action;
         let confirmationMessage;
 
         if (actionButton.classList.contains('close-section')) {
-            status = 'CLOSED';
+            action = closeCourseSection;
             confirmationMessage = `Bạn có chắc muốn đóng lớp học phần ${sectionCode}? Sinh viên đã đăng ký sẽ bị ảnh hưởng.`;
         } else if (actionButton.classList.contains('cancel-section')) {
-            status = 'CANCELLED';
+            action = deletedCourseSection;
             confirmationMessage = `Bạn có chắc muốn hủy lớp học phần ${sectionCode}? Sinh viên đã đăng ký sẽ bị ảnh hưởng.`;
-        } else if (actionButton.classList.contains('reopen-section') || actionButton.classList.contains('restore')) {
-            status = 'OPEN';
+        } else if (actionButton.classList.contains('reopen-section')) {
+            action = openCourseSection;
+        } else if (actionButton.classList.contains('restore')) {
+            action = restoreCourseSection;
         }
 
-        if (!status || (confirmationMessage && !window.confirm(confirmationMessage))) return;
+        if (!action || (confirmationMessage && !window.confirm(confirmationMessage))) return;
 
         try {
             actionButton.disabled = true;
-            const response = await updateCourseSectionStatus(sectionId, status);
+            const response = await action(sectionId);
             if (!response.success) {
                 throw new Error(response.message || 'Không thể cập nhật trạng thái lớp học phần.');
             }
