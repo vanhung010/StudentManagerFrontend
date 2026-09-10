@@ -366,6 +366,6 @@ sectionTableBody.addEventListener('click', async (e) => {
     const row = e.target.closest('tr.row-clickable');
     if (!row) return;
 
-    const code = row.dataset.code;
-    window.location.href = `detail.html?code=${encodeURIComponent(code)}`;
+    const code = row.dataset.id;
+    window.location.href = `detail.html?id=${encodeURIComponent(code)}`;
 });

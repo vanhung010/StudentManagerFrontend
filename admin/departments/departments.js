@@ -204,8 +204,8 @@ document.addEventListener('DOMContentLoaded', () => {
             row.innerHTML = `
              <td><strong>${dept.departmentCode}</strong></td>
                             <td class="text-primary-color">${dept.name}</td>
-                            <td>450</td>
-                            <td>45</td>
+                            <td>${dept.totalStudents}</td>
+                            <td>${dept.totalTeachers}</td>
                              <td><span class="badge badge-success">Đang hoạt động</span></td>
                             <td class="col-actions">
                                 <button class="btn-icon" title="Sửa" data-id="${dept.id}" data-code="${dept.departmentCode}" data-name="${dept.name}">

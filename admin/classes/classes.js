@@ -66,7 +66,7 @@ async function openEditModal(button){
 
    const departmentId = row.children[2].dataset.departmentid;
    
-   console.log(departmentId)
+
    const resDepartment = await apiFetch(`/departments/${departmentId}`)
    const department = resDepartment.data
 

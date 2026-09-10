@@ -20,6 +20,11 @@ function getAllCourseSection(
     return apiFetch(`/course-section?${params.toString()}`);
 }
 
+//lấy chi tiết lớp học phần
+function getDetailCourseSection(id){
+    return apiFetch(`/course-section/${id}`);
+}
+
 // Lưu lớp học phần mới
 function saveCourseSection(payload) {
     return apiFetch('/course-section', 'POST', payload);

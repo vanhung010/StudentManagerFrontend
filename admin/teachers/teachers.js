@@ -392,7 +392,7 @@ function renderTable(teachers){
         trItem.innerHTML = `
          <td>
                                 <div class="teacher-info">
-                                    <img class="avatar avatar-sm" src="https://i.pravatar.cc/64?img=12" alt="">
+                                    <img class="avatar avatar-sm" src="https://i.pravatar.cc/64?img=${teacher.id}" alt="">
                                     <span>${teacher.fullName}</span>
                                 </div>
                             </td>

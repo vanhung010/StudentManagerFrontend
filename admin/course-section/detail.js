@@ -1,53 +1,134 @@
-// ============================================================
-// DETAIL.JS — Chi tiết Lớp học phần
-// Chỉ xử lý tương tác UI cơ bản, dữ liệu demo tĩnh trong HTML.
-// Chưa nối API.
-// ============================================================
-
 // ------------------------------------------------------------
 // 1. CHUYỂN TAB "Sinh viên đăng ký" / "Lịch học"
 // ------------------------------------------------------------
+document.addEventListener('DOMContentLoaded',async () => {
 const tabs = document.querySelectorAll('.section-tab');
 const tabStudents = document.getElementById('tabStudents');
 const tabSchedule = document.getElementById('tabSchedule');
+const studentTableBody = document.getElementById('studentTableBody');
+const studentPaginationSummary = document.getElementById('studentPaginationSummary');
+const studentPaginationControls = document.getElementById('studentPaginationControls');
+
+
+
+function activateTab(target) {
+    const showStudents = target === 'students';
+    const showSchedule = target === 'schedule';
+
+    tabs.forEach(tab => tab.classList.toggle('active', tab.dataset.tab === target));
+    tabStudents.classList.toggle('hidden', !showStudents);
+    tabSchedule.classList.toggle('hidden', !showSchedule);
+    tabStudents.hidden = !showStudents;
+    tabSchedule.hidden = !showSchedule;
+}
+
+
 
 tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-
-        const target = tab.dataset.tab;
-        tabStudents.classList.toggle('hidden', target !== 'students');
-        tabSchedule.classList.toggle('hidden', target !== 'schedule');
+        activateTab(tab.dataset.tab);
     });
 });
 
-// ------------------------------------------------------------
-// 2. TÌM KIẾM SINH VIÊN — lọc trực tiếp trên các hàng đã có
-// ------------------------------------------------------------
-const studentSearchInput = document.getElementById('studentSearchInput');
-const studentTableBody = document.getElementById('studentTableBody');
-const studentEmptyState = document.getElementById('studentEmptyState');
+activateTab(document.querySelector('.section-tab.active')?.dataset.tab || 'students');
 
-studentSearchInput.addEventListener('input', () => {
-    const keyword = studentSearchInput.value.trim().toLowerCase();
-    const rows = studentTableBody.querySelectorAll('tr');
-    let visibleCount = 0;
+/*-----------------------------------------
+2. LOAD CHI TIẾT LỚP HỌC PHẦN
+-------------------------------------------*/
+const sectionTitleTxt = document.getElementById('sectionTitle');
+const sectionCodeTxt = document.getElementById('sectionCodeBadge');
+const statusCourse = document.getElementById('statusCourse');
+const statusDot = document.getElementById('statusDot');
+const sectionStatusTxt = document.getElementById('sectionStatusText');
+const sectionSemesterTxt = document.getElementById('sectionSemesterText');
+const sectionTeacherTxt = document.getElementById('sectionTeacherText');
+const enrolledCount = document.getElementById('enrolledCount');
+const capacityCount = document.getElementById('capacityCount');
+const remainSlotTxt = document.getElementById('remainSlotText')
+const id = new URLSearchParams(window.location.search).get("id");
+async function loadDetail(){
+   
+    const detail = await getDetailCourseSection(id);
+    const dataDetail = detail.data;
+     const studentRemain = dataDetail.maxStudents - dataDetail.enrolledCount;
+    console.log(dataDetail);
+    sectionTitleTxt.textContent = dataDetail.courseName
+    sectionCodeTxt.textContent = dataDetail.sectionCode
+    sectionStatusTxt.textContent = getStatusCourseSection(dataDetail.status)
+    sectionSemesterTxt.textContent = dataDetail.semesterName
+    sectionTeacherTxt.textContent = dataDetail.teacherName
+    enrolledCount.textContent = dataDetail.enrolledCount
+    capacityCount.textContent = dataDetail.maxStudents
+    remainSlotTxt.textContent = `Còn ${studentRemain} chỗ`
+}
+loadDetail()
 
-    rows.forEach(row => {
-        const code = row.children[0].textContent.toLowerCase();
-        const name = row.children[1].textContent.toLowerCase();
-        const match = !keyword || code.includes(keyword) || name.includes(keyword);
-        row.classList.toggle('hidden', !match);
-        if (match) visibleCount++;
+function getStatusCourseSection(keyword){
+    if(keyword === 'OPEN'){
+        statusCourse.classList.add('open')
+        statusDot.classList.add('open-dot')
+        return 'Đang mở'
+    }
+    else if(keyword === 'CLOSED'){
+         statusCourse.classList.add('close')
+         statusDot.classList.add('close-dot')
+        return "Đang khóa";
+    }
+    else {
+         statusCourse.classList.add('cancel')
+        statusDot.classList.add('cacel-dot')
+        return "Đã đóng"
+    }
+}
+
+
+/*-----------------------------
+3. LOAD DANH SÁCH HỌC SINH
+------------------------*/
+
+
+const studentRows = Array.from(studentTableBody.querySelectorAll('tr'));
+const studentsPerPage = 10;
+let currentStudentPage = 1;
+
+function renderStudentPagination() {
+    const totalStudents = studentRows.length;
+    const totalPages = Math.max(1, Math.ceil(totalStudents / studentsPerPage));
+    currentStudentPage = Math.min(currentStudentPage, totalPages);
+
+    const firstStudentIndex = (currentStudentPage - 1) * studentsPerPage;
+    const lastStudentIndex = Math.min(firstStudentIndex + studentsPerPage, totalStudents);
+
+    studentRows.forEach((row, index) => {
+        row.hidden = index < firstStudentIndex || index >= lastStudentIndex;
     });
 
-    // Chỉ hiện empty-state khi lọc không ra kết quả nào
-    studentEmptyState.classList.toggle('hidden', visibleCount > 0);
+    studentPaginationSummary.textContent = totalStudents
+        ? `Hiển thị ${firstStudentIndex + 1}-${lastStudentIndex} của ${totalStudents} sinh viên`
+        : 'Hiển thị 0-0 của 0 sinh viên';
+
+    studentPaginationControls.innerHTML = `
+        <button type="button" data-page="${currentStudentPage - 1}" ${currentStudentPage === 1 ? 'disabled' : ''}>‹ Trước</button>
+        ${Array.from({ length: totalPages }, (_, index) => {
+            const page = index + 1;
+            return `<button type="button" class="${page === currentStudentPage ? 'active' : ''}" data-page="${page}">${page}</button>`;
+        }).join('')}
+        <button type="button" data-page="${currentStudentPage + 1}" ${currentStudentPage === totalPages ? 'disabled' : ''}>Sau ›</button>
+    `;
+}
+
+studentPaginationControls.addEventListener('click', (event) => {
+    const button = event.target.closest('button[data-page]');
+    if (!button || button.disabled) return;
+
+    currentStudentPage = Number(button.dataset.page);
+    renderStudentPagination();
 });
 
+renderStudentPagination();
+
 // ------------------------------------------------------------
-// 3. FORM "THÊM BUỔI HỌC" — ẩn/hiện + thêm dòng demo vào bảng
+// 4. FORM "THÊM BUỔI HỌC" — ẩn/hiện + thêm dòng demo vào bảng
 // ------------------------------------------------------------
 const btnAddSchedule = document.getElementById('btnAddSchedule');
 const scheduleAddRow = document.getElementById('scheduleAddRow');
@@ -114,3 +195,4 @@ scheduleTableBody.addEventListener('click', (e) => {
         btn.closest('tr').remove();
     }
 });
+})
